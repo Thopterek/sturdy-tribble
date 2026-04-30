@@ -20,6 +20,13 @@ The roles were distributed through the knowledge of individual skills.
 
 TBD: showcase who did which ones and on which worked / implemented / helped
 
+Basic:
+
+* Map making: usage of reusable components (walls/door/gate/bush/tree/)
+* Chat: people can write on it
+* Dice rolling: When someone rolles the dice can choose which dice to use and other users see it
+* People can be invited to games/kicked out and so on (roles who sees what)
+
 ### Project Idea
 
 We stopped counting it's way too much points
