@@ -16,6 +16,10 @@ Only special functions that should be there:
 * it should be very easy to change the used name (bottom of the chat?)
 * User name is used only as a fallback option (didn't change or deleted the name)
 
+### Example
+
+![Not so nice as it could](./chat_example/chat.png)
+
 ### Implementation
 
 0: Planned out

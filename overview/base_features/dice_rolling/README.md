@@ -30,6 +30,10 @@ Sometimes in the game players are getting modification to their throws:
 * Adding or subtracting from the end result
 * Multiplying or dividing the end result of the result
 
+### Example
+
+![Basic Dice roll without modifications](./dice_example/dices.png)
+
 ### Implementation
 
 0: Planned out
