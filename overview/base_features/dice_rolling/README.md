@@ -29,3 +29,7 @@ Sometimes in the game players are getting modification to their throws:
 
 * Adding or subtracting from the end result
 * Multiplying or dividing the end result of the result
+
+### Implementation
+
+0: Planned out

@@ -15,3 +15,7 @@ Only special functions that should be there:
 * the name of the player is used for that game only (not the login user name)
 * it should be very easy to change the used name (bottom of the chat?)
 * User name is used only as a fallback option (didn't change or deleted the name)
+
+### Implementation
+
+0: Planned out

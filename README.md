@@ -1,4 +1,8 @@
-### Roles
+# Sturdy-Tribble
+
+ft_transcendence, README for notes
+
+## Roles
 
 * Developers: Everyone, actually Stelio (building the code)
 
@@ -26,16 +30,14 @@ Make it into tasks, so Gianni can decide what the hell, presenting the IDEA
 
 * Map making: usage of reusable components (walls/door/gate/bush/tree/)
 * Chat: people can write on it
-* Dice rolling: When someone rolles the dice can choose which dice to use and other users see it
+* Dice rolling: When someone rolles the dice can choose which dice to use
 * Moving around: On the map with other players
 * People can be invited to games/kicked out and so on (roles who sees what)
 
-### Project Idea
-
-We stopped counting it's way too much points
+### Modules
 
 * TRPG, better Roll20
-  * Major modules: Real-Time/WebSockets, Chat(rolling dice and so on), Public API, User Managment
+  * Major modules: Real-Time/WebSockets, Chat, Public API, User Managment
   * Minor modules: Frontend_framework, Notifications, Filtering, Stats, OAuth2.0
 
 Maybe:

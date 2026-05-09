@@ -29,3 +29,7 @@ Some examples as to how it could be implemented:
 * Pop up menu.
 * Extension of the sidebar / top bar.
 * [Example of the steam game that does it over the top is here](https://store.steampowered.com/app/2498570/Canvas_of_Kings/)
+
+### Implementation
+
+0: Planned out

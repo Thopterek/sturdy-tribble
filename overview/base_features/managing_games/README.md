@@ -19,3 +19,7 @@ There should be a list of players in the game lobby or offline but are part of i
 When you are logging in into the website you should see the games you are part of.
 
 Games are persistent between visiting the website.
+
+### Implementation
+
+0: Planned out

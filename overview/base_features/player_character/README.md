@@ -24,3 +24,7 @@ Only the GM (Game Master -> Game Admin)
 ### Examples
 
 ![Basic Example](./player_example/example.png)
+
+### Implementation
+
+0: Planned out
