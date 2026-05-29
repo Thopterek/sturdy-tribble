@@ -9,3 +9,9 @@ Each described feature has its own directory
 
 * small README.md that explains it in detail plus place to track the work
 * sub-directory with visual representation (screenshots / pictures / references)
+
+### Weird & Other Technical
+
+Login Page -> 4 elements
+
+Which endpoints -> each thing for the recording
