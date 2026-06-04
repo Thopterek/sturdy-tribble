@@ -75,28 +75,3 @@ tags
 .DS_Store
 Thumbs.db
 Desktop.ini
-
-=======
-# Ignore everything
-*
-
-# Allow Go, SQL, YAML, HTML files
-!*.go
-!*.sql
-!*.yaml
-!*.html
-
-# Allow go.mod and go.sum
-!go.mod
-!go.sum
-
-# Allow assets folder
-!assets/
-!assets/**
-!sql/
-!sql/**
-!internal/
-!internal/**
-
-# Allow README.md
-!README.md
