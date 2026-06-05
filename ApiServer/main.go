@@ -62,7 +62,7 @@ func loadEnvAndConnect() apiConf {
 }
 
 func main() {
-	const filepathRoot = "."
+	const filepathRoot = "../wtrpg/src/app.html"
 	const port = "8080"
 
 	cfg := loadEnvAndConnect()
