@@ -65,8 +65,8 @@ func main() {
 	const filepathRoot = "."
 	const port = "8080"
 
-	//cfg := loadEnvAndConnect()
-	cfg := apiConf{} // Temporary fix until DB is connected and configured
+	cfg := loadEnvAndConnect()
+	//cfg := apiConf{} // Temporary fix until DB is connected and configured
 	mux := http.NewServeMux()
 
 	fsHandler := cfg.middlewareMetricsInc(http.StripPrefix("/app", http.FileServer(http.Dir(filepathRoot))))
