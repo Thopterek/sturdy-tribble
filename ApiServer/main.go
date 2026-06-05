@@ -62,11 +62,10 @@ func loadEnvAndConnect() apiConf {
 }
 
 func main() {
-	const filepathRoot = "../wtrpg/src/routes/+page.svelte"
+	const filepathRoot = "../wtrpg/build"
 	const port = "8080"
 
 	cfg := loadEnvAndConnect()
-	//cfg := apiConf{} // Temporary fix until DB is connected and configured
 	mux := http.NewServeMux()
 
 	fsHandler := cfg.middlewareMetricsInc(http.StripPrefix("/app", http.FileServer(http.Dir(filepathRoot))))
