@@ -62,7 +62,7 @@ func loadEnvAndConnect() apiConf {
 }
 
 func main() {
-	const filepathRoot = "../wtrpg/src/app.html"
+	const filepathRoot = "../wtrpg/src/routes/+page.svelte"
 	const port = "8080"
 
 	cfg := loadEnvAndConnect()
