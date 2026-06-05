@@ -68,8 +68,8 @@ func main() {
 	cfg := loadEnvAndConnect()
 	mux := http.NewServeMux()
 
-	fsHandler := cfg.middlewareMetricsInc(http.StripPrefix("/app", http.FileServer(http.Dir(filepathRoot))))
-	mux.Handle("/app/", fsHandler)
+	fsHandler := cfg.middlewareMetricsInc(http.FileServer(http.Dir(filepathRoot)))
+	mux.Handle("/", fsHandler)
 
 	mux.HandleFunc("GET /admin/metrics", cfg.HandlerMetrics)
 	mux.HandleFunc("POST /admin/reset", cfg.HandlerResetHits)
