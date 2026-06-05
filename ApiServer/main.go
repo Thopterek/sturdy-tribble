@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	httpSwagger "github.com/swaggo/http-swagger"
-	_ "github.com/tsironi93/WebServer/docs"
+	//_ "github.com/tsironi93/WebServer/docs"
 	"github.com/tsironi93/WebServer/internal/database"
 )
 
