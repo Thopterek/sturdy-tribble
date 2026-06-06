@@ -9,6 +9,19 @@ VALUES (
 )
 RETURNING *;
 
+-- name: CreateGoogleUser :one
+INSERT INTO users (id, email, google_id, name, avatar_url, created_at, updated_at)
+VALUES (
+    gen_random_uuid(),
+    $1,
+    $2,
+    $3,
+    $4,
+    NOW(),
+    NOW()
+)
+RETURNING *;
+
 -- name: DeleteAllUsers :exec
 DELETE FROM users;
 
