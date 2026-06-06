@@ -5,7 +5,7 @@
 		{ id: 2, done: false, description: 'RPG system played' },
 		{ id: 4, done: false, description: 'Description' }
 	]);
-	let { empty, done } = $props();
+	let empty = $props();
 </script>
 
 <h1>Dashboard</h1>
@@ -15,7 +15,10 @@
 		<div role="presentation" class="background_when_creating_game"></div>
 		<ul>
 			{#each empty as tbd (empty.id)}
-				<li></li>
+				<li class={{ done: tbd.done }}>
+					<input type="checkbox" bind:checked={tbd.done} />
+					<span>{tbd.description}</span>
+				</li>
 			{/each}
 		</ul>
 	{/if}
