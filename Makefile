@@ -1,8 +1,16 @@
 #
-MAKEFLAGS += -s
-IMAGE_NAME = sturdy-tribble
-DEV_TAG = dev
-PROD_TAG = prod
+MAKEFLAGS		+= -s
+
+TIMESTAMP		:= $(shell date +%Y-%m-%d)
+LOGFILE 		:= ./Logs/Build/build_$(TIMESTAMP).log
+CURRENT_FILE	:= $(lastword $(MAKEFILE_LIST))
+
+MOVE_UP   		:= \033[1A
+CLEAR_LN  		:= \033[2K
+
+IMAGE_NAME		= sturdy-tribble
+DEV_TAG			= dev
+PROD_TAG		= prod
 
 ifneq ($(wildcard .env),)
     include .env
@@ -16,14 +24,15 @@ endif
 
 dev: dev-build connection-test dev-setup dev-run
 
-dev-build:
-	@echo "🔨 Building Docker image '$(IMAGE_NAME):$(DEV_TAG)'...\n"
+dev-build: init-log
+	@echo "[.][🔨] Building Docker image '$(IMAGE_NAME):$(DEV_TAG)'..."
+	$(call init_log,build)
 	@if docker build \
 		--target $(DEV_TAG) \
 		--no-cache \
 		-t $(IMAGE_NAME):$(DEV_TAG) AWS/. ; then \
 			clear; \
-			echo "🛠️  Docker image '$(IMAGE_NAME):$(DEV_TAG)' built successfully!"; \
+			echo "[✅][🔨]  Building Docker image '$(IMAGE_NAME):$(DEV_TAG)'..."; \
 		else \
 			clear; \
 			echo "❌ Docker build failed! Check your Dockerfile or network connection."; \
@@ -31,12 +40,14 @@ dev-build:
 		fi
 
 dev-setup:
-	@echo "\n⚙️  Initializing DEV environment..."
+	@echo "\n[.][⚙️] Initialize DEV environment..."
+	$(call logger,INFO,Initializing DEV environment...,Makefile,0);
 	docker run \
 		--env-file .env \
 		-v ./Logs:/app/Logs \
 		$(IMAGE_NAME):$(DEV_TAG) \
 		./deploy.sh dev
+	@echo "$(MOVE_UP)$(CLEAR_LN)[✅][⚙️] Initialize DEV environment";
 
 dev-run:
 	@echo "\n🚀 Launching DEV container..."
@@ -56,16 +67,18 @@ dev-re: clean dev
 prod: prod-build clear-screen connection-test dev-run
 
 prod-build:
-	@echo "🛠️  Building Docker image in the PROD environment..."
+	@echo "[.][🛠️]  Building Docker image in the PROD environment..."
 	@if docker build \
 		--progress quiet \
 		--target $(DEV_TAG) \
 		-t $(IMAGE_NAME):$(DEV_TAG) . >/dev/null 2>&1; then \
 			clear; \
-			echo "🚀 Docker image '$(IMAGE_NAME):$(DEV_TAG)' built successfully!"; \
+			echo "$(MOVE_UP)$(CLEAR_LN)[✅][🛠️] Docker image '$(IMAGE_NAME):$(DEV_TAG)' built successfully!"; \
+			$(call logger,INFO,Docker image '$(IMAGE_NAME):$(DEV_TAG)' built successfully!,Makefile,0); \
 		else \
 			clear; \
-			echo "❌ Docker build failed! Check your Dockerfile or network connection."; \
+			echo "$(MOVE_UP)$(CLEAR_LN)[❌][🛠️] Failed to build Docker container."; \
+			$(call logger,INFO,Docker build failed! Check your Dockerfile or network connection.,Makefile,0); \
 			exit 1; \
 		fi
 # prod-run:
@@ -76,15 +89,29 @@ prod-build:
 # ==========================================
 
 connection-test:
-	@echo "\n🔑 Testing connection to AWS CLI..."
+	@echo "[.][📡] Connection test to AWS CLI."
+	$(call logger,INFO,Connection test to AWS CLI...,Makefile,0)
 	@OUTPUT=$$(docker run --rm --env-file .env $(IMAGE_NAME):$(DEV_TAG) 2>/dev/null); \
-	if [ $$? -eq 0 ] && [ ! -z "$$OUTPUT" ]; then \
+	EXIT_CODE=$$?; \
+	if [ $$EXIT_CODE -eq 0 ] && [ ! -z "$$OUTPUT" ]; then \
 		USER_ID=$$(echo "$$OUTPUT" | jq -r '.UserId'); \
-		echo "📡 User '$$USER_ID' connected successfully!"; \
+		printf "$(MOVE_UP)$(CLEAR_LN)[✅][📡] User '$$USER_ID' connected successfully!\n"; \
+		$(call logger,INFO,User '$$USER_ID' connected successfully!,Makefile,0); \
 	else \
-		echo "🔐 Failed to connect to AWS. Check your credentials on the .env file."; \
+		printf "$(MOVE_UP)$(CLEAR_LN)[❌][📡] Failed to connect to AWS.\n"; \
+		$(call logger,INFO,Failed to connect to AWS. Check your credentials on the .env file.,Makefile,0); \
 		exit 1; \
 	fi
+
+init-log:
+	@echo "\n[.][📝] Initializing logging engine..."
+	@mkdir -p ./Logs/Build
+	@if [ ! -f "$(LOGFILE)" ]; then \
+		touch "$(LOGFILE)"; \
+		chmod -w "$(LOGFILE)"; \
+	fi
+	@echo "{'timestamp': '$$(date +%Y-%m-%d_%H:%M:%S)', 'message': 'Start building...', 'process': 'Makefile', 'exit': '0'}" >> $(LOGFILE)
+	@echo "$(MOVE_UP)$(CLEAR_LN)[✅][📝] Initializing logging engine..."
 
 clean-aws:
 	@echo "Cleaning up AWS services..."
@@ -103,6 +130,18 @@ clean-docker:
 	docker system df
 
 clean: clean-aws clean-docker
+
+
+# ==========================================
+# Defines
+# ==========================================
+
+# $(1) = LEVEL
+# $(2) = MESSAGE
+# $(3) = PROCESS
+define logger
+	echo "{\"timestamp\": \"$$(date +%Y-%m-%d_%H:%M:%S)\", \"level\": \"$(1)\", \"message\": \"$(2)\", \"process\": \"$(3)\"}" >> $(LOGFILE)
+endef
 
 .PHONY: dev dev-build dev-setup dev-run dev-re \
 	prod prod-build prod-run prod-re \
