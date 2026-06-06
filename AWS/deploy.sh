@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 STAGE=$1
 
@@ -9,6 +10,7 @@ fi
 
 case "$STAGE" in
     dev)
+        ./s3.sh
         # Create S3
         # Create Cloudfront
         # Create EC2 

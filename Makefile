@@ -9,6 +9,11 @@ ifneq ($(wildcard .env),)
     export
 endif
 
+
+# ==========================================
+# Development Environment
+# ==========================================
+
 dev: dev-build connection-test dev-setup dev-run
 
 dev-build:
@@ -29,23 +34,24 @@ dev-setup:
 	@echo "\n⚙️  Initializing DEV environment..."
 	docker run \
 		--env-file .env \
+		-v ./Logs:/app/Logs \
 		$(IMAGE_NAME):$(DEV_TAG) \
-		/app/deploy.sh dev
+		./deploy.sh dev
 
 dev-run:
 	@echo "\n🚀 Launching DEV container..."
 	docker run -it --rm \
 		--env-file .env \
+		-v ./Logs:/app/Logs \
 		$(IMAGE_NAME):$(DEV_TAG) \
 		/bin/sh
 
-# Clean up local docker images
-dev-clean:
-	@echo "🧹 Cleaning up Docker images..."
-	docker system prune -a
-	docker system df
+dev-re: clean dev
 
-dev-re: dev-clean dev
+
+# ==========================================
+# Production Environment
+# ==========================================
 
 prod: prod-build clear-screen connection-test dev-run
 
@@ -64,20 +70,40 @@ prod-build:
 		fi
 # prod-run:
 
+
+# ==========================================
+# General
+# ==========================================
+
 connection-test:
 	@echo "\n🔑 Testing connection to AWS CLI..."
 	@OUTPUT=$$(docker run --rm --env-file .env $(IMAGE_NAME):$(DEV_TAG) 2>/dev/null); \
-		if [ $$? -eq 0 ] && [ ! -z "$$OUTPUT" ]; then \
-			USER_ID=$$(echo "$$OUTPUT" | jq -r '.UserId'); \
-			echo "📡 User '$$USER_ID' connected successfully!"; \
-		else \
-			echo "🔐 Failed to connect to AWS. Check your credentials on the .env file."; \
-			exit 1; \
-		fi
+	if [ $$? -eq 0 ] && [ ! -z "$$OUTPUT" ]; then \
+		USER_ID=$$(echo "$$OUTPUT" | jq -r '.UserId'); \
+		echo "📡 User '$$USER_ID' connected successfully!"; \
+	else \
+		echo "🔐 Failed to connect to AWS. Check your credentials on the .env file."; \
+		exit 1; \
+	fi
 
-# Deletes all the aws service instances and spins them again back up
-fclean:
+clean-aws:
+	@echo "Cleaning up AWS services..."
+	RUNNING_CONTAINER=$$(docker ps --filter "ancestor=$(IMAGE_NAME):$(DEV_TAG)" --format "{{.Names}}"); \
+	if [ -z "$$RUNNING_CONTAINER" ]; then \
+		docker run --rm --env-file .env $(IMAGE_NAME):$(DEV_TAG) /app/cleanup.sh; \
+	else \
+		docker exec --env-file .env $$RUNNING_CONTAINER /app/cleanup.sh; \
+		docker stop $$RUNNING_CONTAINER; \
+	fi
+	@echo "AWS Services cleaned up."
 
-.PHONY: dev dev-build dev-run dev-setup dev-clean dev-re \
-	prod prod-build prod-run prod-clean prod-re \
-	connection-test fclean
+clean-docker:
+	@echo "🧹 Cleaning up Docker infrastructure..."
+	docker system prune -a
+	docker system df
+
+clean: clean-aws clean-docker
+
+.PHONY: dev dev-build dev-setup dev-run dev-re \
+	prod prod-build prod-run prod-re \
+	connection-test clean-aws clean-docker clean

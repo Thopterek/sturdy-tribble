@@ -14,12 +14,14 @@ RUN apk add --no-cache \
     nodejs \
     npm \
     go \
+    nano \
     && pip3 install --no-cache-dir awscli --break-system-packages
     # postgresql
     # redis
 
 WORKDIR /app
 COPY deploy.sh .
+COPY ./config .
 
 CMD ["aws", "sts", "get-caller-identity"]
 
