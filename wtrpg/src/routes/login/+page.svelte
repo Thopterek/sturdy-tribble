@@ -1,19 +1,37 @@
 <script lang="ts">
-	let username = $state('Username please');
+	let username = $state('Email please');
 	let pass = $state('Password also');
 </script>
 
-<h1>Login</h1>
+<h1>Login and Registration</h1>
 
-<div bind:innerHTML={username} contenteditable></div>
-<div>
-	<input type="text" placeholder={pass} />
-</div>
+<div class="container">
+	<div>
+		<div bind:innerHTML={username} contenteditable></div>
+		<div>
+			<input type="text" placeholder={pass} />
+		</div>
 
-<div>
-	<button>
-		<a href="/dashboard">My login is my registration, let's goo</a>
-	</button>
+		<div>
+			<button>
+				<a href="/dashboard">Yaaaay login</a>
+			</button>
+		</div>
+	</div>
+	<div>
+		<div bind:innerHTML={username} contenteditable></div>
+		<div>
+			<input type="text" placeholder="Put your password" />
+		</div>
+		<div>
+			<input type="text" placeholder="Now please repeat it" />
+		</div>
+		<div>
+			<button>
+				<a href="/dashboard">Here is Registration</a>
+			</button>
+		</div>
+	</div>
 </div>
 
 <div>
@@ -23,6 +41,10 @@
 </div>
 
 <style>
+	.container {
+		display: flex;
+		gap: 1em;
+	}
 	[contenteditable] {
 		padding: 0.5em;
 		border: 1px solid #eee;

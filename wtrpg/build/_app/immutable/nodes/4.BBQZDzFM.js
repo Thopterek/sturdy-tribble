@@ -1,1 +1,0 @@
-import{K as e,b as t,v as n}from"../chunks/zHTUojSK.js";import"../chunks/xihTtKlq.js";import"../chunks/CrJY3YKv.js";var r=t(`<h1>Game Lobby</h1> <button><a href="/dashboard">Check that profile</a></button>`,1);function i(t){var i=r();e(2),n(t,i)}export{i as component};

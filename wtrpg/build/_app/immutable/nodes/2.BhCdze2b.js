@@ -1,22 +1,4 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="text-scale" content="scale" />
-		<link href="./_app/immutable/entry/start.BGKWTWMe.js" rel="modulepreload">
-		<link href="./_app/immutable/chunks/Bm5alqJe.js" rel="modulepreload">
-		<link href="./_app/immutable/chunks/CFHTQXBM.js" rel="modulepreload">
-		<link href="./_app/immutable/entry/app.VbBtV_OH.js" rel="modulepreload">
-		<link href="./_app/immutable/chunks/kNaey6uv.js" rel="modulepreload">
-		<link href="./_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="./_app/immutable/nodes/0.DL4lUtXR.js" rel="modulepreload">
-		<link href="./_app/immutable/nodes/2.BhCdze2b.js" rel="modulepreload">
-		<!--12qhfyh--><link rel="icon" href="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='107'%20height='128'%20viewBox='0%200%20107%20128'%3e%3ctitle%3esvelte-logo%3c/title%3e%3cpath%20d='M94.157%2022.819c-10.4-14.885-30.94-19.297-45.792-9.835L22.282%2029.608A29.92%2029.92%200%200%200%208.764%2049.65a31.5%2031.5%200%200%200%203.108%2020.231%2030%2030%200%200%200-4.477%2011.183%2031.9%2031.9%200%200%200%205.448%2024.116c10.402%2014.887%2030.942%2019.297%2045.791%209.835l26.083-16.624A29.92%2029.92%200%200%200%2098.235%2078.35a31.53%2031.53%200%200%200-3.105-20.232%2030%2030%200%200%200%204.474-11.182%2031.88%2031.88%200%200%200-5.447-24.116'%20style='fill:%23ff3e00'/%3e%3cpath%20d='M45.817%20106.582a20.72%2020.72%200%200%201-22.237-8.243%2019.17%2019.17%200%200%201-3.277-14.503%2018%2018%200%200%201%20.624-2.435l.49-1.498%201.337.981a33.6%2033.6%200%200%200%2010.203%205.098l.97.294-.09.968a5.85%205.85%200%200%200%201.052%203.878%206.24%206.24%200%200%200%206.695%202.485%205.8%205.8%200%200%200%201.603-.704L69.27%2076.28a5.43%205.43%200%200%200%202.45-3.631%205.8%205.8%200%200%200-.987-4.371%206.24%206.24%200%200%200-6.698-2.487%205.7%205.7%200%200%200-1.6.704l-9.953%206.345a19%2019%200%200%201-5.296%202.326%2020.72%2020.72%200%200%201-22.237-8.243%2019.17%2019.17%200%200%201-3.277-14.502%2017.99%2017.99%200%200%201%208.13-12.052l26.081-16.623a19%2019%200%200%201%205.3-2.329%2020.72%2020.72%200%200%201%2022.237%208.243%2019.17%2019.17%200%200%201%203.277%2014.503%2018%2018%200%200%201-.624%202.435l-.49%201.498-1.337-.98a33.6%2033.6%200%200%200-10.203-5.1l-.97-.294.09-.968a5.86%205.86%200%200%200-1.052-3.878%206.24%206.24%200%200%200-6.696-2.485%205.8%205.8%200%200%200-1.602.704L37.73%2051.72a5.42%205.42%200%200%200-2.449%203.63%205.79%205.79%200%200%200%20.986%204.372%206.24%206.24%200%200%200%206.698%202.486%205.8%205.8%200%200%200%201.602-.704l9.952-6.342a19%2019%200%200%201%205.295-2.328%2020.72%2020.72%200%200%201%2022.237%208.242%2019.17%2019.17%200%200%201%203.277%2014.503%2018%2018%200%200%201-8.13%2012.053l-26.081%2016.622a19%2019%200%200%201-5.3%202.328'%20style='fill:%23fff'/%3e%3c/svg%3e"/><!---->
-		<link href="./_app/immutable/assets/2.CC18k4vP.css" rel="stylesheet">
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><h1>Terms and Conditions</h1> <div><p class="check_term svelte-1uha8ag">Here is some text that goes and goes. Idea is is to check if we can handle the change of value.
+import{B as e,F as t,H as n,J as r,N as i,P as a,Q as o,R as s,S as c,U as l,Z as u,a as d,d as f,g as p,h as m,k as h,q as g,w as _,z as v}from"../chunks/CFHTQXBM.js";import"../chunks/xihTtKlq.js";function y(e){return Object.prototype.toString.call(e)===`[object Date]`}function b(e){return e}function x(e,t){if(e===t||e!==e)return()=>e;let n=typeof e;if(n!==typeof t||Array.isArray(e)!==Array.isArray(t))throw Error(`Cannot interpolate values of different type`);if(Array.isArray(e)){let n=t.map((t,n)=>x(e[n],t));return e=>n.map(t=>t(e))}if(n===`object`){if(!e||!t)throw Error(`Object cannot be null`);if(y(e)&&y(t)){let n=e.getTime(),r=t.getTime()-n;return e=>new Date(n+e*r)}let n=Object.keys(t),r={};return n.forEach(n=>{r[n]=x(e[n],t[n])}),e=>{let t={};return n.forEach(n=>{t[n]=r[n](e)}),t}}if(n===`number`){let n=t-e;return t=>e+t*n}return()=>t}var S=class e{#e;#t;#n;#r=null;constructor(e,t={}){this.#e=l(e),this.#t=l(e),this.#n=t}static of(t,n){let r=new e(t(),n);return i(()=>{r.set(t())}),r}set(e,t){n(this.#t,e);let{delay:r=0,duration:i=400,easing:a=b,interpolate:o=x}={...this.#n,...t};if(i===0)return this.#r?.abort(),n(this.#e,e),Promise.resolve();let s=p.now()+r,c,l=!1,u=this.#r;return this.#r=m(t=>{if(t<s)return!0;if(!l){l=!0;let t=this.#e.v;c=o(t,e),typeof i==`function`&&(i=i(t,e)),u?.abort()}let r=t-s;return r>i?(n(this.#e,e),!1):(n(this.#e,c(a(r/i))),!0)}),this.#r.promise}get current(){return h(this.#e)}get target(){return h(this.#t)}set target(e){this.set(e)}},C=_(`<h1>Terms and Conditions</h1> <div><p class="check_term svelte-1uha8ag">Here is some text that goes and goes. Idea is is to check if we can handle the change of value.
 		Like in between this text that would be actual terms and conditions. But for now it's just
 		couple of lines, that are being handwritten. Okay here is some term and conditions: Amazon
 		Lumberyard’s Zombie Apocalypse Clause: The EULA explicitly states that restrictions on using the
@@ -130,29 +112,4 @@
 		products for the development, design, manufacture, or production of nuclear, missile, or
 		chemical or biological weapons, settling the long-standing debate on whether iTunes can launch
 		nukes. PC Pitstop’s $1,000 Prize: A hidden clause offered $1,000 to anyone who read a specific
-		section of the license agreement and contacted the company; it took over 3,000 downloads before</p></div> <div class="topbar svelte-1uha8ag"><progress value="0" class="svelte-1uha8ag"></progress> <button><a href="/login">I assume you want to login inside anyway</a></button></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
-			
-			<script>
-				{
-					__sveltekit_ebqaxp = {
-						base: new URL(".", location).pathname.slice(0, -1)
-					};
-
-					const element = document.currentScript.parentElement;
-
-					Promise.all([
-						import("./_app/immutable/entry/start.BGKWTWMe.js"),
-						import("./_app/immutable/entry/app.VbBtV_OH.js")
-					]).then(([kit, app]) => {
-						kit.start(app, element, {
-							node_ids: [0, 2],
-							data: [null,null],
-							form: null,
-							error: null
-						});
-					});
-				}
-			</script>
-		</div>
-	</body>
-</html>
+		section of the license agreement and contacted the company; it took over 3,000 downloads before</p></div> <div class="topbar svelte-1uha8ag"><progress class="svelte-1uha8ag"></progress> <button><a href="/login">I assume you want to login inside anyway</a></button></div>`,1);function w(i,p){r(p,!0);let m=new S(0),_=l(0);t(()=>{let e=document.body.scrollHeight-window.innerHeight;m.set(h(_)/e)});var y=C(),b=e(v(y),4),x=s(b);u(2),o(b),a(()=>f(x,m.current)),d(`y`,()=>h(_),e=>n(_,e,!0)),c(i,y),g()}export{w as component};
