@@ -1,5 +1,0 @@
-cabal-version: 3.0
-name: png-to-svg
-version: 0.1.0.0
-synopsis: Converting the PNG 16x16 (favicon size) to SVG code, for pixelart, works best with Pixilart pngs
-build-type: Simple
