@@ -1,9 +1,19 @@
+module Main where
+
 import Codec.Picture
+import Const
 import System.FilePath ((</>))
 
--- Bro what is this as for saving the path we need extra import hahah
-path :: FilePath
-path = "../../overview/pixel_art_sketches/"
+-- Way to classify all of the colours used in Pixel Arts
+classification :: PixelRGB8 -> String
+classification (PixelRGB8 r g b)
+    | r < 40 && g < 40 && b < 40 = black
+    | r == 49 && g == 49 && b == 49 = darkspot
+    | r == 84 && g == 85 && b == 85 = between
+    | r == 121 && g == 120 && b == 120 = shadow
+    | r == 161 && g == 160 && b == 160 = slight
+    | r == 213 && g == 212 && b == 212 = gbase
+    | r > 233 && g > 233 && b > 233 = white
 
 -- Haskell, why are you using tabs instead of spaces :c
 main :: IO ()
