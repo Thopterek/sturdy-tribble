@@ -16,7 +16,18 @@ classification (PixelRGB8 r g b)
   | r > 233 && g > 233 && b > 233 = white
   | otherwise = "\"ErrorBruh\""
 
+-- Main caller? To make it like in C it would be
+-- int writeRectangles(Image img, int w, int h)
+-- where is for local variables
+writeRectangles :: DynamicImage -> Int -> Int
+writeRectangles img w h = w
+  where
+
 -- Haskell, why are you using tabs instead of spaces :c
+-- plus very random but the idea is: return value is the fn
+-- int skrr(int x) {return (x * x);} and Haskell below
+-- skrr :: Int -> Int
+-- skrr x = x * x
 main :: IO ()
 main = do
   result <- readImage (path </> "bird.png")
@@ -25,4 +36,5 @@ main = do
     Right img -> do
       let w = dynamicMap imageWidth img
       let h = dynamicMap imageHeight img
+      writeRectangles img w h
       putStrLn $ "Width: " ++ show w ++ ", Height: " ++ show h
