@@ -18,10 +18,12 @@ classification (PixelRGB8 r g b)
 
 -- Main caller? To make it like in C it would be
 -- int writeRectangles(Image img, int w, int h)
--- where is for local variables
-writeRectangles :: DynamicImage -> Int -> Int
-writeRectangles img w h = w
+-- where is for local variables and the recursion?!
+writeRectangles :: Image PixelRGB8 -> Int -> Int
+writeRectangles total = rec img w h
   where
+    total = h * w
+    rec img  w h
 
 -- Haskell, why are you using tabs instead of spaces :c
 -- plus very random but the idea is: return value is the fn
