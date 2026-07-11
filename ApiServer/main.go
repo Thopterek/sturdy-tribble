@@ -87,6 +87,14 @@ func main() {
 	mux.HandleFunc("POST /api/refresh", cfg.HandlerTokenRefresh)
 	mux.HandleFunc("POST /api/revoke", cfg.HandlerTokenRevoke)
 
+	mux.HandleFunc("POST /api/lobbies", cfg.HandlerLobbiesCreate)
+	// mux.HandleFunc("GET /api/lobbies/{id}", cfg.HandlerLobbiesGetSingle)
+	// mux.HandleFunc("GET /api/lobbies", cfg.HandlerLobbiesGetAll)
+	// mux.HandleFunc("POST /api/lobbies/{id}/join", cfg.HandlerLobbiesJoin)
+	// mux.HandleFunc("POST /api/lobbies/{id}/leave", cfg.HandlerLobbiesLeave)
+	// mux.HandleFunc("GET /api/lobbies/{id}/players", cfg.HandlerLobbiesGetPlayers)
+	// mux.HandleFunc("DELETE /api/lobbies/{id}", cfg.HandlerLobbiesDelete)
+
 	mux.HandleFunc("GET /api/chirps/{chirpID}", cfg.HandlerChirpsGetSingle)
 	mux.HandleFunc("DELETE /api/chirps/{chirpID}", cfg.HandlerChirpsDelete)
 

@@ -19,6 +19,22 @@ type Chirp struct {
 	UserID    uuid.UUID
 }
 
+type LobbiesPlayer struct {
+	LobbyID  uuid.UUID
+	PlayerID uuid.UUID
+	JoinedAt time.Time
+}
+
+type Lobby struct {
+	ID               uuid.UUID
+	LobbyName        string
+	GameMaster       uuid.UUID
+	ShortDescription sql.NullString
+	GameMap          sql.NullString
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+}
+
 type RefreshToken struct {
 	Token     string
 	CreatedAt time.Time

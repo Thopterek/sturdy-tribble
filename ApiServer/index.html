@@ -75,6 +75,16 @@ pre {
 </div>
 
 <div class="section">
+    <h2>Create Lobby</h2>
+
+    <input id="lobbyName" type="text" placeholder="Lobby Name">
+    <input id="lobbyDescription" type="text" placeholder="Short Description">
+    <input id="lobbyMap" type="text" placeholder="Game Map">
+
+    <button onclick="createLobby()">Create Lobby</button>
+</div>
+
+<div class="section">
     <h2>JWT Tools</h2>
 
     <button onclick="showJWT()">Show Stored JWT</button>
@@ -245,6 +255,46 @@ function clearJWT() {
     display({
         message: "JWT cleared"
     });
+}
+
+async function createLobby() {
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+        display({
+            error: "No JWT stored. Login first."
+        });
+        return;
+    }
+
+    const payload = {
+        lobby_name: document.getElementById("lobbyName").value,
+        short_description: document.getElementById("lobbyDescription").value,
+        game_map: document.getElementById("lobbyMap").value
+    };
+
+    try {
+        const res = await fetch(`${API}/api/lobbies`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        display({
+            status: res.status,
+            request: payload,
+            response: data
+        });
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
 }
 </script>
 
