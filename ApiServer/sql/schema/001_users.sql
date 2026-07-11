@@ -3,9 +3,9 @@ CREATE TABLE users (
   id UUID PRIMARY KEY,
 
   email TEXT NOT NULL UNIQUE,
-  google_id TEXT UNIQUE NOT NULL,
+  google_id TEXT UNIQUE,
 
-  name TEXT NOT NULL,
+  username TEXT UNIQUE NOT NULL,
   avatar_url TEXT,
 
   created_at TIMESTAMP NOT NULL,
@@ -13,4 +13,4 @@ CREATE TABLE users (
 );
 
 -- +goose Down
-DROP TABLE users;
+DROP TABLE users; 

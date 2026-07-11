@@ -1,16 +1,19 @@
 -- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, email, hashed_password)
+INSERT INTO users (id, email, google_id, username, hashed_password, avatar_url, created_at, updated_at)
 VALUES (
     gen_random_uuid(),
-    NOW(),
-    NOW(),
     $1,
-    $2
+    null,
+    $2,
+    $3,
+    null,
+    NOW(),
+    NOW()
 )
 RETURNING *;
 
 -- name: CreateGoogleUser :one
-INSERT INTO users (id, email, google_id, name, avatar_url, created_at, updated_at)
+INSERT INTO users (id, email, google_id, username, avatar_url, created_at, updated_at)
 VALUES (
     gen_random_uuid(),
     $1,

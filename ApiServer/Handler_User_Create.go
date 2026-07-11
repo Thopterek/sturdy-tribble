@@ -17,12 +17,14 @@ type User struct {
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	Email       string    `json:"email"`
+	Username    string    `json:"username"`
 	Token       string    `json:"token"`
 	IsChirpyRed bool      `json:"is_chirpy_red"`
 }
 
 type createUser struct {
 	Email          string `json:"email"`
+	Username       string `json:"username"`
 	HashedPassword string `json:"password"`
 }
 
@@ -59,6 +61,7 @@ func (cfg *apiConf) HandlerUserCreate(w http.ResponseWriter, r *http.Request) {
 
 	user, err := cfg.db.CreateUser(r.Context(), database.CreateUserParams{
 		Email:          create.Email,
+		Username:       create.Username,
 		HashedPassword: pass,
 	})
 	if err != nil {
@@ -76,6 +79,7 @@ func (cfg *apiConf) HandlerUserCreate(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusCreated, User{
 		ID:          user.ID,
 		Email:       user.Email,
+		Username:    user.Username,
 		CreatedAt:   user.CreatedAt,
 		UpdatedAt:   user.UpdatedAt,
 		Token:       token,

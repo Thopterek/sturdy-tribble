@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chirpy API Tester</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+pre {
+    background: #f5f5f5;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<h1>Chirpy API Tester</h1>
+
+<div class="section">
+    <h2>Create User</h2>
+
+    <input id="createEmail" type="email" placeholder="Email">
+    <input id="createUsername" type="text" placeholder="Username">
+    <input id="createPassword" type="password" placeholder="Password">
+
+    <button onclick="createUser()">Create User</button>
+</div>
+
+<div class="section">
+    <h2>Login</h2>
+
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+</div>
+
+<div class="section">
+    <h2>Update User</h2>
+
+    <input id="updateEmail" type="email" placeholder="New Email">
+    <input id="updatePassword" type="password" placeholder="New Password">
+
+    <button onclick="updateUser()">Update User</button>
+</div>
+
+<div class="section">
+    <h2>JWT Tools</h2>
+
+    <button onclick="showJWT()">Show Stored JWT</button>
+    <button onclick="clearJWT()">Clear JWT</button>
+</div>
+
+<div class="section">
+    <h2>Admin Tools</h2>
+
+    <button onclick="getMetrics()">Get Metrics</button>
+    <button onclick="resetDatabase()">Reset Database & Hits</button>
+</div>
+
+<h2>Response</h2>
+<pre id="output">Ready...</pre>
+
+<script>
+const API = "http://localhost:8080";
+
+function display(data) {
+    document.getElementById("output").textContent =
+        typeof data === "string"
+            ? data
+            : JSON.stringify(data, null, 2);
+}
+
+async function createUser() {
+    const payload = {
+        email: document.getElementById("createEmail").value,
+        username: document.getElementById("createUsername").value,
+        password: document.getElementById("createPassword").value
+    };
+
+    try {
+        const res = await fetch(`${API}/api/users`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (data.token) {
+            localStorage.setItem("jwt", data.token);
+        }
+
+        display(data);
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
+}
+
+async function login() {
+    const payload = {
+        email: document.getElementById("loginEmail").value,
+        password: document.getElementById("loginPassword").value
+    };
+
+    try {
+        const res = await fetch(`${API}/api/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (data.token) {
+            localStorage.setItem("jwt", data.token);
+        }
+
+        display(data);
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
+}
+
+async function updateUser() {
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+        display({
+            error: "No JWT stored. Login first."
+        });
+        return;
+    }
+
+    const payload = {
+        email: document.getElementById("updateEmail").value,
+        password: document.getElementById("updatePassword").value
+    };
+
+    try {
+        const res = await fetch(`${API}/api/users`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        display(data);
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
+}
+
+async function getMetrics() {
+    try {
+        const res = await fetch(`${API}/admin/metrics`);
+        const text = await res.text();
+
+        display({
+            status: res.status,
+            response: text
+        });
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
+}
+
+async function resetDatabase() {
+    if (!confirm("This will DELETE ALL USERS and reset hits. Continue?")) {
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/admin/reset`, {
+            method: "POST"
+        });
+
+        const text = await res.text();
+
+        display({
+            status: res.status,
+            response: text
+        });
+    } catch (err) {
+        display({
+            error: err.message
+        });
+    }
+}
+
+function showJWT() {
+    display({
+        jwt: localStorage.getItem("jwt")
+    });
+}
+
+function clearJWT() {
+    localStorage.removeItem("jwt");
+
+    display({
+        message: "JWT cleared"
+    });
+}
+</script>
+
+</body>
+</html>/html>
