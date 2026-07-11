@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Dsix from '$lib/assets/dsix.svelte';
-	import { user } from '$lib/auth.svelte';
+	import { user, create_user } from '$lib/auth.svelte';
 	const email = 'Email';
 	const username = 'Username';
 	const pass = 'Password';
 	// to be deleted for later
-	const api = 'localhost:8080';
 	// not binding in to the same things
 	let c_email = $state('');
 	let c_pass = $state('');
@@ -14,22 +13,30 @@
 	let u_email = $state('');
 	let u_name = $state('');
 	let u_pass = $state('');
+	// some logic to be changed surely but for testing? HMMM?!
+	// like using the Cookie Token and so on
 </script>
 
 <h1><Dsix width={24} height={24} /> Login and Registration</h1>
+<div><a href="/dashboard">Just a link to a generic dashboard</a></div>
 <div class="main">
 	<form>
 		<legend>Login</legend>
-		<div><input type="email" placeholder={email} bind:value={user.email} /></div>
-		<div><input type="password" placeholder={pass} bind:value={user.password} /></div>
-		<div><button><a href="/dashboard">Yaaaay login</a></button></div>
+		<div><input type="email" placeholder={email} bind:value={user.email} required /></div>
+		<div><input type="password" placeholder={pass} bind:value={user.password} required /></div>
+		<div><button type="submit">Actually sending a login</button></div>
 	</form>
-	<form>
+	<form
+		onsubmit={(e) => {
+			e.preventDefault();
+			create_user(c_email, c_name, c_pass);
+		}}
+	>
 		<legend>Registration</legend>
-		<div><input type="email" placeholder={email} bind:value={c_email} /></div>
-		<div><input type="text" placeholder={username} bind:value={c_name} /></div>
-		<div><input type="password" placeholder={pass} bind:value={c_pass} /></div>
-		<div><button><a href="/dashboard">Here is Registration</a></button></div>
+		<div><input type="email" placeholder={email} bind:value={c_email} required /></div>
+		<div><input type="text" placeholder={username} bind:value={c_name} required /></div>
+		<div><input type="password" placeholder={pass} bind:value={c_pass} required /></div>
+		<div><button type="submit">Register sending a post</button></div>
 	</form>
 	<form>
 		<legend>Update User</legend>
