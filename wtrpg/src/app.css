@@ -10,24 +10,25 @@
   --font-pixel: 'pixel', monospace;
 }
 
+
 body {
   font-family: var(--font-pixel);
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  line-height: 1.4;
+  -webkit-font-smoothing: normal;
+  font-smooth: normal;
   text-rendering: optimizeSpeed;
 }
 
-input,
-textarea,
-select,
-button {
+input, textarea, select, button {
   font-family: inherit;
-  -webkit-font-smoothing: none;
+  -webkit-font-smoothing: normal;
   font-smooth: never;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
 }
 
-input::placeholder,
-textarea::placeholder {
+input::placeholder, textarea::placeholder {
   font-family: inherit;
-  font-size: var(--font-size-pixel);
+  font-size: inherit;
 }
+

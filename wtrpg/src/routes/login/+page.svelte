@@ -5,6 +5,8 @@
 	const pass = 'Password';
 	// to be deleted for later
 	const api = 'localhost:8080';
+	let c_email = $state('');
+	let c_pass = $state('');
 </script>
 
 <h1>Login and Registration</h1>
@@ -27,13 +29,13 @@
 	<form>
 		Registration
 		<div>
-			<input type="email" placeholder={email} bind:value={user.email} />
+			<input type="email" placeholder={email} bind:value={c_email} />
 		</div>
 		<div>
 			<input type="text" placeholder={username} bind:value={user.name} />
 		</div>
 		<div>
-			<input type="password" placeholder={pass} bind:value={user.password} />
+			<input type="password" placeholder={pass} bind:value={c_pass} />
 		</div>
 		<div>
 			<button>
