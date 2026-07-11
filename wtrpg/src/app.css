@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'pixel';
+  src: url('/fonts/tiny5-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-pixel: 'pixel', monospace;
+}
+
+body {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  text-rendering: optimizeSpeed;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: inherit;
+  font-size: var(--font-size-pixel);
+}

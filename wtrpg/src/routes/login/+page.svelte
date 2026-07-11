@@ -4,7 +4,7 @@
 	const username = 'Username';
 	const pass = 'Password';
 	// to be deleted for later
-	const api: string = $state('localhost:8080');
+	const api = 'localhost:8080';
 </script>
 
 <h1>Login and Registration</h1>
@@ -24,7 +24,8 @@
 			</button>
 		</div>
 	</form>
-	<div>
+	<form>
+		Registration
 		<div>
 			<input type="email" placeholder={email} bind:value={user.email} />
 		</div>
@@ -39,7 +40,7 @@
 				<a href="/dashboard">Here is Registration</a>
 			</button>
 		</div>
-	</div>
+	</form>
 </div>
 <div>
 	<button>
@@ -51,11 +52,5 @@
 	.container {
 		display: flex;
 		gap: 1em;
-	}
-	input[type='text'] {
-		flex: 1;
-		padding: 0.5em;
-		margin: -0.2em 0;
-		border: none;
 	}
 </style>
