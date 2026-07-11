@@ -1,30 +1,38 @@
 <script lang="ts">
-	let username = $state('Email please');
-	let pass = $state('Password also');
+	import { user } from '$lib/auth.svelte';
+	const email = 'Email';
+	const username = 'Username';
+	const pass = 'Password';
+	// to be deleted for later
+	const api: string = $state('localhost:8080');
 </script>
 
 <h1>Login and Registration</h1>
 
 <div class="container">
-	<div>
-		<div bind:innerHTML={username} contenteditable></div>
+	<form>
+		Login
 		<div>
-			<input type="text" placeholder={pass} />
+			<input type="email" placeholder={email} bind:value={user.email} />
 		</div>
-
+		<div>
+			<input type="password" placeholder={pass} bind:value={user.password} />
+		</div>
 		<div>
 			<button>
 				<a href="/dashboard">Yaaaay login</a>
 			</button>
 		</div>
-	</div>
+	</form>
 	<div>
-		<div bind:innerHTML={username} contenteditable></div>
 		<div>
-			<input type="text" placeholder="Put your password" />
+			<input type="email" placeholder={email} bind:value={user.email} />
 		</div>
 		<div>
-			<input type="text" placeholder="Now please repeat it" />
+			<input type="text" placeholder={username} bind:value={user.name} />
+		</div>
+		<div>
+			<input type="password" placeholder={pass} bind:value={user.password} />
 		</div>
 		<div>
 			<button>
@@ -33,7 +41,6 @@
 		</div>
 	</div>
 </div>
-
 <div>
 	<button>
 		<a href="/">Are you sure you don't want to read terms and conditions first?</a>
@@ -44,11 +51,6 @@
 	.container {
 		display: flex;
 		gap: 1em;
-	}
-	[contenteditable] {
-		padding: 0.5em;
-		border: 1px solid #eee;
-		border-radius: 4px;
 	}
 	input[type='text'] {
 		flex: 1;
