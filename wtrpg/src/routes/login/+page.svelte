@@ -20,67 +20,39 @@
 <div class="main">
 	<form>
 		<legend>Login</legend>
-		<div>
-			<input type="email" placeholder={email} bind:value={user.email} />
-		</div>
-		<div>
-			<input type="password" placeholder={pass} bind:value={user.password} />
-		</div>
-		<div>
-			<button>
-				<a href="/dashboard">Yaaaay login</a>
-			</button>
-		</div>
+		<div><input type="email" placeholder={email} bind:value={user.email} /></div>
+		<div><input type="password" placeholder={pass} bind:value={user.password} /></div>
+		<div><button><a href="/dashboard">Yaaaay login</a></button></div>
 	</form>
 	<form>
-		Registration
-		<div>
-			<input type="email" placeholder={email} bind:value={c_email} />
-		</div>
-		<div>
-			<input type="text" placeholder={username} bind:value={c_name} />
-		</div>
-		<div>
-			<input type="password" placeholder={pass} bind:value={c_pass} />
-		</div>
-		<div>
-			<button>
-				<a href="/dashboard">Here is Registration</a>
-			</button>
-		</div>
+		<legend>Registration</legend>
+		<div><input type="email" placeholder={email} bind:value={c_email} /></div>
+		<div><input type="text" placeholder={username} bind:value={c_name} /></div>
+		<div><input type="password" placeholder={pass} bind:value={c_pass} /></div>
+		<div><button><a href="/dashboard">Here is Registration</a></button></div>
 	</form>
 	<form>
-		Update User
-		<div>
-			<input type="email" placeholder="new email" bind:value={u_email} />
-		</div>
-		<div>
-			<input type="test" placeholder="new user" bind:value={u_name} />
-		</div>
-		<div>
-			<input type="password" placeholder="new password" bind:value={u_pass} />
-		</div>
+		<legend>Update User</legend>
+		<div><input type="email" placeholder="new email" bind:value={u_email} /></div>
+		<div><input type="test" placeholder="new user" bind:value={u_name} /></div>
+		<div><input type="password" placeholder="new password" bind:value={u_pass} /></div>
 		<div><button>Just click it</button></div>
 	</form>
 </div>
 <div class="testing">
 	<form>
-		JWT related things
+		<legend>JWT related things</legend>
 		<div><button>Show the JWT Access Token</button></div>
 		<div><button>DELETE the JWT Access Token</button></div>
 	</form>
 	<form>
-		Admin without admin
+		<legend>Admin without admin</legend>
 		<div><button>Get Metrics</button></div>
 		<div><button>RESET DB</button></div>
 	</form>
 </div>
-Terms & Conditions
-<div>
-	<button>
-		<a href="/">Are you sure you don't want to read terms and conditions first?</a>
-	</button>
-</div>
+<legend>Terms & Conditions</legend>
+<div><button><a href="/">Would you like to read T&C first?</a></button></div>
 
 <style>
 	.main {
