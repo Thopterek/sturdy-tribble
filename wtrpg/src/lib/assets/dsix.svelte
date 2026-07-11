@@ -1,4 +1,9 @@
-<svg width="64" height="64" viewBox="0 0 16 16">
+<script>
+	export let width = 64;
+	export let height = 64;
+</script>
+
+<svg {width} {height} viewBox="0 0 16 16">
 	<rect class="outline" x="2" y="0" width="12" height="1" />
 	<rect class="outline" x="0" y="2" width="1" height="12" />
 	<rect class="outline" x="15" y="2" width="1" height="12" />
