@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Dsix from '$lib/assets/dsix.svelte';
-	import { user, create_user } from '$lib/auth.svelte';
+	import { user, create_user, login } from '$lib/auth.svelte';
 	const email = 'Email';
 	const username = 'Username';
 	const pass = 'Password';
@@ -20,16 +20,21 @@
 <h1><Dsix width={24} height={24} /> Login and Registration</h1>
 <div><a href="/dashboard">Just a link to a generic dashboard</a></div>
 <div class="main">
-	<form>
+	<form
+		onsubmit={async (e) => {
+			e.preventDefault();
+			login(user.email, user.password);
+		}}
+	>
 		<legend>Login</legend>
 		<div><input type="email" placeholder={email} bind:value={user.email} required /></div>
 		<div><input type="password" placeholder={pass} bind:value={user.password} required /></div>
 		<div><button type="submit">Actually sending a login</button></div>
 	</form>
 	<form
-		onsubmit={(e) => {
+		onsubmit={async (e) => {
 			e.preventDefault();
-			create_user(c_email, c_name, c_pass);
+			user.access_token = await create_user(c_email, c_name, c_pass);
 		}}
 	>
 		<legend>Registration</legend>
