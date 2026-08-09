@@ -1,4 +1,4 @@
-use image::{GenericImageView, Pixel, Rgba};
+use image::{GenericImageView, Pixel};
 
 fn main() {
     let path_to_img = "../../overview/pixel_art_sketches/bird.png";
@@ -12,9 +12,10 @@ fn main() {
             return;
         }
         for one in img.pixels() {
-            let r = one.2;
-            r.to_rgb();
-            // r.map();
+            let access_rgba = one.2;
+            let actuall_rgb_pixel = access_rgba.to_rgb();
+            let r = actuall_rgb_pixel.0;
+            println!("{:?}", r);
         }
     } else {
         println!("Error: It uses relative path to find image {}", path_to_img);
