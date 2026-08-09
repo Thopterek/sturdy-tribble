@@ -1,4 +1,6 @@
-use image::{GenericImageView, Pixel};
+use image::{DynamicImage, GenericImageView, Pixel, Rgba};
+
+use rust_png_to_svg::{get_color, get_symbol_for_terminal};
 
 fn main() {
     let path_to_img = "../../overview/pixel_art_sketches/bird.png";
@@ -11,11 +13,12 @@ fn main() {
             println!("Info: Should it be an error? No. Do I care? Not enough");
             return;
         }
-        for one in img.pixels() {
-            let access_rgba = one.2;
+        for one in img.pixels().enumerate() {
+            let access_rgba = one.1.2;
             let actuall_rgb_pixel = access_rgba.to_rgb();
-            let r = actuall_rgb_pixel.0;
-            println!("{:?}", r);
+            let result = get_color(actuall_rgb_pixel.0[0]);
+            // let result = get_symbol_for_terminal(actuall_rgb_pixel.0[0]);
+            print!("{:?}", result);
         }
     } else {
         println!("Error: It uses relative path to find image {}", path_to_img);
