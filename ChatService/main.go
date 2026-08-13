@@ -39,4 +39,15 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 
 	fmt.Println("WebSocket verbunden")
+
+	for {
+		messageType, message, err := conn.ReadMessage()
+		if err != nil {
+			fmt.Println("Verbindung beendet:", err)
+			return
+		}
+
+		fmt.Println("Nachrichtentyp:", messageType)
+		fmt.Println("Nachricht:", string(message))
+	}
 }
