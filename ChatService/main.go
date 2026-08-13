@@ -49,5 +49,11 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println("Nachrichtentyp:", messageType)
 		fmt.Println("Nachricht:", string(message))
+
+		err = conn.WriteMessage(messageType, message)
+		if err != nil {
+			fmt.Println("Fehler beim Senden:", err)
+			return
+		}
 	}
 }
