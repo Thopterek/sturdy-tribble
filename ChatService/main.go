@@ -7,6 +7,11 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type Message struct {
+	RecipientID string `json:"recipient_id"`
+	Content string `json:"content"`
+}
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
@@ -41,16 +46,18 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("WebSocket verbunden")
 
 	for {
-		messageType, message, err := conn.ReadMessage()
+		var message Message
+
+		err := conn.ReadJSON(&message)
 		if err != nil {
-			fmt.Println("Verbindung beendet:", err)
+			fmt.Println("Verbindung beendet oder ungultiges JSON:", err)
 			return
 		}
 
-		fmt.Println("Nachrichtentyp:", messageType)
-		fmt.Println("Nachricht:", string(message))
+		fmt.Println("Empfanger:", message.RecipientID)
+		fmt.Println("Nachricht:", message.Content)
 
-		err = conn.WriteMessage(messageType, message)
+		err = conn.WriteJSON(message)
 		if err != nil {
 			fmt.Println("Fehler beim Senden:", err)
 			return
