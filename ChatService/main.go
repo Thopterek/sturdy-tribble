@@ -10,11 +10,11 @@ import (
 
 type Message struct {
 	RecipientID string `json:"recipient_id"`
-	Content string `json:"content"`
+	Content     string `json:"content"`
 }
 
 type Client struct {
-	ID string
+	ID   string
 	Conn *websocket.Conn
 }
 
@@ -59,7 +59,26 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer conn.Close()
+	client := &Client{
+		ID:   userID,
+		Conn: conn,
+	}
+
+	clientsMutex.Lock()
+	clients[userID] = client
+	clientsMutex.Unlock()
+
+	fmt.Println("Client gespeichert:", userID)
+
+	defer func() {
+		clientsMutex.Lock()
+		delete(clients, userID)
+		clientsMutex.Unlock()
+
+		conn.Close()
+
+		fmt.Println("Client entfernt:", userID)
+	}()
 
 	fmt.Println("WebSocket verbunden")
 
@@ -75,10 +94,19 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Empfanger:", message.RecipientID)
 		fmt.Println("Nachricht:", message.Content)
 
-		err = conn.WriteJSON(message)
+		clientsMutex.RLock()
+		recipient, found := clients[message.RecipientID]
+		clientsMutex.RUnlock()
+
+		if !found {
+			fmt.Println("Empfanger nicht verbunden:", message.RecipientID)
+			continue
+		}
+
+		err = recipient.Conn.WriteJSON(message)
 		if err != nil {
-			fmt.Println("Fehler beim Senden:", err)
-			return
+			fmt.Println("Fehler beim WeiterleitenL", err)
+			continue
 		}
 	}
 }
