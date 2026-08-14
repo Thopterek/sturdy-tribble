@@ -2,6 +2,9 @@ use image::{DynamicImage, GenericImageView, Pixel, Rgba};
 
 use rust_png_to_svg::{get_color, get_symbol_for_terminal};
 
+/*
+* Just checking if I am pushing with correct user and from new branch
+*/
 fn main() {
     let path_to_img = "../../overview/pixel_art_sketches/bird.png";
     let res = image::open(path_to_img);
