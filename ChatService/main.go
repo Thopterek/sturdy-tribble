@@ -67,6 +67,23 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	clientsMutex.Lock()
+
+	_, alreadyConnected := clients[userID]
+	if alreadyConnected {
+		clientsMutex.Unlock()
+
+		fmt.Println("Client bereits verbunden:", userID)
+		conn.WriteMessage(
+			websocket.CloseMessage,
+			websocket.FormatCloseMessage(
+				websocket.ClosePolicyViolation,
+				"Benutzer ist bereits verbunden",
+			),
+		)
+		conn.Close()
+		fmt.Println("Doppelte Verbindung geschlossen:", userID)
+		return
+	}
 	clients[userID] = client
 	clientsMutex.Unlock()
 
