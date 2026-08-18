@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/gorilla/websocket"
@@ -14,10 +15,29 @@ type Message struct {
 	Content     string `json:"content"`
 }
 
+type ErrorResponse struct {
+	Type    string `json:"type"`
+	Message string `json:"message"`
+}
+
 type Client struct {
 	ID         string
 	Conn       *websocket.Conn
 	WriteMutex sync.Mutex
+}
+
+func (client *Client) SendJSON(value any) error {
+	client.WriteMutex.Lock()
+	defer client.WriteMutex.Unlock()
+
+	return client.Conn.WriteJSON(value)
+}
+
+func (client *Client) SendError(message string) error {
+	return client.SendJSON(ErrorResponse{
+		Type:    "error",
+		Message: message,
+	})
 }
 
 var clients = make(map[string]*Client)
@@ -28,6 +48,8 @@ var upgrader = websocket.Upgrader{
 		return true
 	},
 }
+
+const maxMessageLength = 1000
 
 func main() {
 	http.HandleFunc("/ChatHealth", healthHandler)
@@ -110,6 +132,39 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		if message.RecipientID == "" {
+			fmt.Println("Nachricht abgelehnt: Empfanger fehlt")
+
+			err = client.SendError("Empfanger fehlt")
+			if err != nil {
+				fmt.Println("Fehler beim senden der Fehlermeldung:", err)
+				return
+			}
+			continue
+		}
+
+		if strings.TrimSpace(message.Content) == "" {
+			fmt.Println("Nachricht abgelehnt: Inhalt ist leer")
+
+			err = client.SendError("Nachrichteninhalt darf nicht leer sein")
+			if err != nil {
+				fmt.Println("Fehler beim Senden der Fehlermeldung:", err)
+				return
+			}
+			continue
+		}
+
+		if len(message.Content) > maxMessageLength {
+			fmt.Println("Nachricht abgelehnt: Inhalt ist zu lang")
+
+			err = client.SendError("Nachricht darf maximal 1000 Bytes lang sein")
+			if err != nil {
+				fmt.Println("Fehler beim Senden der Fehlermeldung:", err)
+				return
+			}
+			continue
+		}
+
 		message.SenderID = userID
 
 		fmt.Println("Sender:", message.SenderID)
@@ -122,12 +177,16 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 
 		if !found {
 			fmt.Println("Empfanger nicht verbunden:", message.RecipientID)
+
+			err = client.SendError("Empfanger ist nicht verbunden")
+			if err != nil {
+				fmt.Println("Fehler beim Sender der Fehlermeldung:", err)
+				return
+			}
 			continue
 		}
 
-		recipient.WriteMutex.Lock()
-		err = recipient.Conn.WriteJSON(message)
-		recipient.WriteMutex.Unlock()
+		err = recipient.SendJSON(message)
 		if err != nil {
 			fmt.Println("Fehler beim Weiterleiten", err)
 			continue
