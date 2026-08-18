@@ -9,13 +9,15 @@ import (
 )
 
 type Message struct {
+	SenderID    string `json:"sender_id"`
 	RecipientID string `json:"recipient_id"`
 	Content     string `json:"content"`
 }
 
 type Client struct {
-	ID   string
-	Conn *websocket.Conn
+	ID         string
+	Conn       *websocket.Conn
+	WriteMutex sync.Mutex
 }
 
 var clients = make(map[string]*Client)
@@ -91,6 +93,9 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		message.SenderID = userID
+
+		fmt.Println("Sender:", message.SenderID)
 		fmt.Println("Empfanger:", message.RecipientID)
 		fmt.Println("Nachricht:", message.Content)
 
@@ -103,9 +108,11 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
+		recipient.WriteMutex.Lock()
 		err = recipient.Conn.WriteJSON(message)
+		recipient.WriteMutex.Unlock()
 		if err != nil {
-			fmt.Println("Fehler beim WeiterleitenL", err)
+			fmt.Println("Fehler beim Weiterleiten", err)
 			continue
 		}
 	}
