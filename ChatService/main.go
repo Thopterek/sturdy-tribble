@@ -5,14 +5,19 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
 type Message struct {
-	SenderID    string `json:"sender_id"`
-	RecipientID string `json:"recipient_id"`
-	Content     string `json:"content"`
+	ID          string    `json:"id"`
+	Type        string    `json:"type"`
+	SenderID    string    `json:"sender_id"`
+	RecipientID string    `json:"recipient_id"`
+	Content     string    `json:"content"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type ErrorResponse struct {
@@ -165,7 +170,10 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
+		message.ID = uuid.NewString()
+		message.Type = "message"
 		message.SenderID = userID
+		message.CreatedAt = time.Now().UTC()
 
 		fmt.Println("Sender:", message.SenderID)
 		fmt.Println("Empfanger:", message.RecipientID)
@@ -190,6 +198,15 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println("Fehler beim Weiterleiten", err)
 			continue
+		}
+
+		sentConfirmation := message
+		sentConfirmation.Type = "message_sent"
+
+		err = client.SendJSON(sentConfirmation)
+		if err != nil {
+			fmt.Println("Fehler beim Senden der Bestatigung:", err)
+			return
 		}
 	}
 }
