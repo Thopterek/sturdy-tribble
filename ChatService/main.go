@@ -12,7 +12,7 @@ func main() {
 	if jwtSecret == "" {
 		log.Fatal("SECRET muss gesetzt sein")
 	}
-	
+
 	http.HandleFunc("/ChatHealth", healthHandler)
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {

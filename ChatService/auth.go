@@ -7,6 +7,11 @@ import (
 	"github.com/google/uuid"
 )
 
+type AuthResponse struct {
+	Type   string `json:"type"`
+	UserID string `json:"user_id"`
+}
+
 type AuthRequest struct {
 	Type  string `json:"type"`
 	Token string `json:"token"`

@@ -20,21 +20,59 @@ func websocketHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 	jwtSecret string,
-	) {
-	userID := r.URL.Query().Get("user_id")
-
-	if userID == "" {
-		http.Error(w, "user_id fehlt", http.StatusBadRequest)
-		return
-	}
-
-	fmt.Println("Verbindungsanfrage von:", userID)
+) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println("Websocket-Fehler:", err)
 		return
 	}
+
+	err = conn.SetReadDeadline(time.Now().Add(10 * time.Second))
+	if err != nil {
+		fmt.Println("Auth-Timeout konnte nicht gesetzt werden:", err)
+		conn.Close()
+		return
+	}
+
+	var authRequest AuthRequest
+
+	err = conn.ReadJSON(&authRequest)
+	if err != nil {
+		fmt.Println("Auth-Nachricht konnte nicht gelesen werden:", err)
+		conn.Close()
+		return
+	}
+
+	if authRequest.Type != "auth" || authRequest.Token == "" {
+		conn.WriteJSON(ErrorResponse{
+			Type:    "error",
+			Message: "Authentifzierung fehlt",
+		})
+		conn.Close()
+		return
+	}
+
+	userID, err := validateJWT(authRequest.Token, jwtSecret)
+	if err != nil {
+		fmt.Println("JWT abgelehnt:", err)
+
+		conn.WriteJSON(ErrorResponse{
+			Type:    "error",
+			Message: "Token ist ungultig oder abgelaufen",
+		})
+		conn.Close()
+		return
+	}
+
+	err = conn.SetReadDeadline(time.Time{})
+	if err != nil {
+		fmt.Println("Auth-Timeout konnte nicht entfernt werden:", err)
+		conn.Close()
+		return
+	}
+
+	fmt.Println("Benutzer authentifiziert:", userID)
 
 	client := &Client{
 		ID:   userID,
@@ -74,7 +112,16 @@ func websocketHandler(
 		fmt.Println("Client entfernt:", userID)
 	}()
 
-	fmt.Println("WebSocket verbunden")
+	err = client.SendJSON(AuthResponse{
+		Type:   "auth_success",
+		UserID: userID,
+	})
+	if err != nil {
+		fmt.Println("Auth-Bestatigung konnte nicht gesendet werden:", err)
+		return
+	}
+
+	fmt.Println("WebSocket authentifiziert und bereit")
 
 	for {
 		var message Message
