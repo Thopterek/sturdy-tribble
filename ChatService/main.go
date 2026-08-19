@@ -2,12 +2,22 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
+	jwtSecret := os.Getenv("SECRET")
+	if jwtSecret == "" {
+		log.Fatal("SECRET muss gesetzt sein")
+	}
+	
 	http.HandleFunc("/ChatHealth", healthHandler)
-	http.HandleFunc("/ws", websocketHandler)
+
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		websocketHandler(w, r, jwtSecret)
+	})
 
 	fmt.Println("ChatService lauft auf Port 8081")
 

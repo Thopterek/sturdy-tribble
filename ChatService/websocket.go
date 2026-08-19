@@ -16,7 +16,11 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func websocketHandler(w http.ResponseWriter, r *http.Request) {
+func websocketHandler(
+	w http.ResponseWriter,
+	r *http.Request,
+	jwtSecret string,
+	) {
 	userID := r.URL.Query().Get("user_id")
 
 	if userID == "" {
