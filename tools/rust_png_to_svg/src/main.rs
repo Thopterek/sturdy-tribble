@@ -1,5 +1,6 @@
 use image::GenericImageView;
 
+#[cfg(debug_assertions)]
 use rust_png_to_svg::print_png_on_terminal;
 
 fn main() {
@@ -13,6 +14,8 @@ fn main() {
             println!("Info: Should it be an error? No. Do I care? Not enough");
             return;
         }
+        for one in img.pixels().enumerate() {}
+        #[cfg(debug_assertions)]
         print_png_on_terminal(img);
     } else {
         println!("Error: It uses relative path to find image {}", path_to_img);

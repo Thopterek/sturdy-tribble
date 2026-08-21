@@ -42,13 +42,15 @@ pub fn get_symbol_for_terminal(color: u8) -> String {
     if color <= 1 {
         String::from("B")
     } else if color > 40 && color < 80 {
-        String::from("\"")
+        String::from("$")
     } else if (80..=125).contains(&color) {
         String::from("%")
-    } else if (125..180).contains(&color) {
-        String::from("\'")
+    } else if (125..=160).contains(&color) {
+        String::from("#")
+    } else if (160..=180).contains(&color) {
+        String::from("\"")
     } else if (180..220).contains(&color) {
-        String::from("$")
+        String::from("\'")
     } else {
         String::from("W")
     }
