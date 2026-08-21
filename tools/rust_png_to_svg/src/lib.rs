@@ -41,17 +41,28 @@ pub fn print_png_on_terminal(img: DynamicImage) {
 pub fn get_symbol_for_terminal(color: u8) -> String {
     if color <= 1 {
         String::from("B")
-    } else if color > 40 && color < 80 {
-        String::from("$")
-    } else if (80..=125).contains(&color) {
+    } else if (80..=100).contains(&color) {
         String::from("%")
-    } else if (125..=160).contains(&color) {
+    } else if (118..=140).contains(&color) {
         String::from("#")
-    } else if (160..=180).contains(&color) {
+    } else if (150..=170).contains(&color) {
         String::from("\"")
-    } else if (180..220).contains(&color) {
+    } else if (200..220).contains(&color) {
         String::from("\'")
     } else {
         String::from("W")
+    }
+}
+
+#[cfg(debug_assertions)]
+pub fn print_rgba(img: DynamicImage) {
+    for one in img.pixels().enumerate() {
+        let access_rgba = one.1.2;
+        let actuall_rgb_pixel = access_rgba.to_rgba();
+        // let result = get_color(actuall_rgb_pixel.0[0]);
+        println!("{:?}", actuall_rgb_pixel);
+        if (one.0 + 1) % 16 == 0 {
+            println!();
+        }
     }
 }

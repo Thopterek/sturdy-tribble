@@ -1,7 +1,7 @@
 use image::GenericImageView;
 
 #[cfg(debug_assertions)]
-use rust_png_to_svg::print_png_on_terminal;
+use rust_png_to_svg::{print_png_on_terminal, print_rgba};
 
 fn main() {
     let path_to_img = "../../overview/pixel_art_sketches/bird.png";
@@ -14,9 +14,9 @@ fn main() {
             println!("Info: Should it be an error? No. Do I care? Not enough");
             return;
         }
-        for one in img.pixels().enumerate() {}
         #[cfg(debug_assertions)]
         print_png_on_terminal(img);
+        //print_rgba(img);
     } else {
         println!("Error: It uses relative path to find image {}", path_to_img);
     }
