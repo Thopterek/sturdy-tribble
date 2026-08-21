@@ -2,9 +2,6 @@ use image::GenericImageView;
 
 use rust_png_to_svg::print_png_on_terminal;
 
-/*
-* Just checking if I am pushing with correct user and from new branch
-*/
 fn main() {
     let path_to_img = "../../overview/pixel_art_sketches/bird.png";
     let res = image::open(path_to_img);
