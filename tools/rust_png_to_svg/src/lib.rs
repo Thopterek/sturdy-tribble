@@ -37,6 +37,22 @@ pub fn print_png_on_terminal(img: DynamicImage) {
     }
 }
 
+pub fn c_to_char(color: u8) -> char {
+    if color <= 1 {
+        'B'
+    } else if (80..=100).contains(&color) {
+        'D'
+    } else if (118..=140).contains(&color) {
+        'S'
+    } else if (150..=170).contains(&color) {
+        'L'
+    } else if (200..220).contains(&color) {
+        'B'
+    } else {
+        'W'
+    }
+}
+
 #[cfg(debug_assertions)]
 pub fn get_symbol_for_terminal(color: u8) -> String {
     if color <= 1 {
