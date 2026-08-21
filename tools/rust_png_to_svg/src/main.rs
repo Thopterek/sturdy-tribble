@@ -1,6 +1,6 @@
-use image::{DynamicImage, GenericImageView, Pixel, Rgba};
+use image::GenericImageView;
 
-use rust_png_to_svg::{get_color, get_symbol_for_terminal};
+use rust_png_to_svg::print_png_on_terminal;
 
 /*
 * Just checking if I am pushing with correct user and from new branch
@@ -16,16 +16,7 @@ fn main() {
             println!("Info: Should it be an error? No. Do I care? Not enough");
             return;
         }
-        for one in img.pixels().enumerate() {
-            let access_rgba = one.1.2;
-            let actuall_rgb_pixel = access_rgba.to_rgb();
-            // let result = get_color(actuall_rgb_pixel.0[0]);
-            let result = get_symbol_for_terminal(actuall_rgb_pixel.0[0]);
-            print!("{}", result);
-            if one.0 % 16 == 0 {
-                println!();
-            }
-        }
+        print_png_on_terminal(img);
     } else {
         println!("Error: It uses relative path to find image {}", path_to_img);
     }
