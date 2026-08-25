@@ -61,6 +61,6 @@ func TestLobbyClientManagement(t *testing.T) {
 	lobby.Mutex.RUnlock()
 
 	if exists {
-		t.Fatal("CLient wurde nicht aus der LObby entfernt")
+		t.Fatal("CLient wurde nicht aus der Lobby entfernt")
 	}
 }
