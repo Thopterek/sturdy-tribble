@@ -29,3 +29,38 @@ func TestGetOrCreateLobby(t *testing.T) {
 		t.Fatal("Bestehende Lobby wurde nicht wiederverwendet")
 	}
 }
+
+func TestLobbyClientManagement(t *testing.T) {
+	lobby := &Lobby{
+		ID:               "test-lobby",
+		ConnectedClients: make(map[string]*Client),
+	}
+
+	client := &Client{
+		ID: "test-user",
+	}
+
+	lobby.AddClient(client)
+
+	lobby.Mutex.RLock()
+	storedClient, exists := lobby.ConnectedClients[client.ID]
+	lobby.Mutex.RUnlock()
+
+	if !exists {
+		t.Fatal("CLient wurde nicht zur Lobby hinzugefugt")
+	}
+
+	if storedClient != client {
+		t.Fatal("In der Lobby wurde nicht derselbe Client gespeichert")
+	}
+
+	lobby.RemoveClient(client.ID)
+
+	lobby.Mutex.RLock()
+	_, exists = lobby.ConnectedClients[client.ID]
+	lobby.Mutex.RUnlock()
+
+	if exists {
+		t.Fatal("CLient wurde nicht aus der LObby entfernt")
+	}
+}

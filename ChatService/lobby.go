@@ -30,7 +30,7 @@ func getOrCreateLobby(lobbyID string) *Lobby {
 	return lobby
 }
 
-func (lobby *Lobby) AddCLient(client *Client) {
+func (lobby *Lobby) AddClient(client *Client) {
 	lobby.Mutex.Lock()
 	defer lobby.Mutex.Unlock()
 
