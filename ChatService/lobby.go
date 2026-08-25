@@ -29,3 +29,17 @@ func getOrCreateLobby(lobbyID string) *Lobby {
 
 	return lobby
 }
+
+func (lobby *Lobby) AddCLient(client *Client) {
+	lobby.Mutex.Lock()
+	defer lobby.Mutex.Unlock()
+
+	lobby.ConnectedClients[client.ID] = client
+}
+
+func (lobby *Lobby) RemoveClient(userID string) {
+	lobby.Mutex.Lock()
+	defer lobby.Mutex.Unlock()
+
+	delete(lobby.ConnectedClients, userID)
+}
