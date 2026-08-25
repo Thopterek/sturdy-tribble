@@ -5,7 +5,6 @@ import (
 
 	"github.com/google/uuid"
 )
-	
 
 func TestGetOrCreateLobby(t *testing.T) {
 	lobbiesMutex.Lock()
@@ -104,5 +103,20 @@ func TestJoinLobby(t *testing.T) {
 
 	if storedClient != client {
 		t.Fatal("In der LObby wurde nicht derselbe CLient gespeichert")
+	}
+}
+
+func TestJoinLobbyRejectsInvalidUUID(t *testing.T) {
+	client := &Client{
+		ID: "test-user",
+	}
+
+	lobby, err := joinLobby(client, "keine-uuid")
+	if err == nil {
+		t.Fatal("ungultige Lobby-ID wurde akzeptiert")
+	}
+
+	if lobby != nil {
+		t.Fatal("Bei ungultiger Lobby-ID wurde trotzdem eine Lobby zuruckgegeben")
 	}
 }
