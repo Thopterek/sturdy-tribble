@@ -1,11 +1,26 @@
 package main
 
-import "sync"
+import (
+	"errors"
+	"sync"
+
+	"github.com/google/uuid"
+)
 
 type Lobby struct {
 	ID               string
 	ConnectedClients map[string]*Client
 	Mutex            sync.RWMutex
+}
+
+type JoinLobbyRequest struct {
+	Type    string `json:"type"`
+	LobbyID string `json:"lobby_id"`
+}
+
+type LobbyJoinedResponse struct {
+	Type    string `json:"type"`
+	LobbyID string `json:"lobby_id"`
 }
 
 var lobbies = make(map[string]*Lobby)
@@ -42,4 +57,16 @@ func (lobby *Lobby) RemoveClient(userID string) {
 	defer lobby.Mutex.Unlock()
 
 	delete(lobby.ConnectedClients, userID)
+}
+
+func joinLobby(client *Client, lobbyID string) (*Lobby, error) {
+	parsedLobbyID, err := uuid.Parse(lobbyID)
+	if err != nil {
+		return nil, errors.New("lobby-id ist keine gultige UUID")
+	}
+
+	lobby := getOrCreateLobby(parsedLobbyID.String())
+	lobby.AddClient(client)
+
+	return lobby, nil
 }
