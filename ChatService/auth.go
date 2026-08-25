@@ -29,6 +29,7 @@ func validateJWT(tokenString string, secret string) (string, error) {
 		jwt.WithValidMethods([]string{
 			jwt.SigningMethodHS256.Alg(),
 		}),
+		jwt.WithIssuer("chirpy"),
 	)
 	if err != nil {
 		return "", err

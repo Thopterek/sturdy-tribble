@@ -13,6 +13,7 @@ func TestValidateJWT(t *testing.T) {
 	expectedUserID := uuid.New()
 
 	claims := jwt.RegisteredClaims{
+		Issuer:    "chirpy",
 		Subject:   expectedUserID.String(),
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 	}
