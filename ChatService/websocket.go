@@ -102,7 +102,14 @@ func websocketHandler(
 
 	fmt.Println("Client gespeichert:", userID)
 
+	var currentLobby *Lobby
+
 	defer func() {
+		if currentLobby != nil {
+			currentLobby.RemoveClient(userID)
+			fmt.Println("Client aus Lobby entfernen:", currentLobby.ID)
+		}
+
 		clientsMutex.Lock()
 		delete(clients, userID)
 		clientsMutex.Unlock()
@@ -124,12 +131,57 @@ func websocketHandler(
 	fmt.Println("WebSocket authentifiziert und bereit")
 
 	for {
-		var message Message
+		var event ClientEvent
 
-		err := conn.ReadJSON(&message)
+		err := conn.ReadJSON(&event)
 		if err != nil {
 			fmt.Println("Verbindung beendet oder ungultiges JSON:", err)
 			return
+		}
+
+		if event.Type == "join_lobby" {
+			if currentLobby != nil {
+				err = client.SendError("Client ist bereits einer Lobby beigetreten")
+				if err != nil {
+					return
+				}
+				continue
+			}
+
+			lobby, joinerr := joinLobby(client, event.LobbyID)
+			if joinerr != nil {
+				err = client.SendError(joinerr.Error())
+				if err != nil {
+					return
+				}
+				continue
+			}
+
+			currentLobby = lobby
+
+			err = client.SendJSON(LobbyJoinedResponse{
+				Type:    "lobby_joined",
+				LobbyID: lobby.ID,
+			})
+			if err != nil {
+				fmt.Println("Lobby-Bestatigung konnte nicht gesendet werden:", err)
+				return
+			}
+			fmt.Println("Client ist Lobby beigetreten:", lobby.ID)
+			continue
+		}
+
+		if event.Type != "message" {
+			err = client.SendError("Unbekannter Event-Type")
+			if err != nil {
+				return
+			}
+			continue
+		}
+
+		message := Message{
+			RecipientID: event.RecipientID,
+			Content:     event.Content,
 		}
 
 		if message.RecipientID == "" {

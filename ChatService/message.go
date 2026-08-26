@@ -17,3 +17,10 @@ type ErrorResponse struct {
 	Type    string `json:"type"`
 	Message string `json:"message"`
 }
+
+type ClientEvent struct {
+	Type        string `json:"type"`
+	LobbyID     string `json:"lobby_id"`
+	RecipientID string `json:"recipient_id"`
+	Content     string `json:"content"`
+}
