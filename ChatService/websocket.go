@@ -107,7 +107,7 @@ func websocketHandler(
 	defer func() {
 		if currentLobby != nil {
 			currentLobby.RemoveClient(userID)
-			fmt.Println("Client aus Lobby entfernen:", currentLobby.ID)
+			fmt.Println("Client aus Lobby entfernt:", currentLobby.ID)
 		}
 
 		clientsMutex.Lock()
@@ -179,15 +179,35 @@ func websocketHandler(
 			continue
 		}
 
-		message := Message{
-			RecipientID: event.RecipientID,
-			Content:     event.Content,
+		if currentLobby == nil {
+			err = client.SendError("Client ist keiner Lobby beigetreten")
+			if err != nil {
+				return
+			}
+			continue
 		}
 
-		if message.RecipientID == "" {
-			fmt.Println("Nachricht abgelehnt: Empfanger fehlt")
+		parsedLobbyID, parseErr := uuid.Parse(event.LobbyID)
+		if parseErr != nil {
+			err = client.SendError("Lobby-ID ist keine gultige UUID")
+			if err != nil {
+				return
+			}
+			continue
+		}
 
-			err = client.SendError("Empfanger fehlt")
+		if parsedLobbyID.String() != currentLobby.ID {
+			err = client.SendError("Client ist dieser Lobby nicht beigetreten")
+			if err != nil {
+				return
+			}
+			continue
+		}
+
+		if strings.TrimSpace(event.Content) == "" {
+			fmt.Println("Nachricht abgelehnt: Inhalt ist leer")
+
+			err = client.SendError("Nachrichteninhalt darf nicht leer sein")
 			if err != nil {
 				fmt.Println("Fehler beim senden der Fehlermeldung:", err)
 				return
@@ -195,45 +215,10 @@ func websocketHandler(
 			continue
 		}
 
-		if strings.TrimSpace(message.Content) == "" {
-			fmt.Println("Nachricht abgelehnt: Inhalt ist leer")
-
-			err = client.SendError("Nachrichteninhalt darf nicht leer sein")
-			if err != nil {
-				fmt.Println("Fehler beim Senden der Fehlermeldung:", err)
-				return
-			}
-			continue
-		}
-
-		if len(message.Content) > maxMessageLength {
+		if len(event.Content) > maxMessageLength {
 			fmt.Println("Nachricht abgelehnt: Inhalt ist zu lang")
 
-			err = client.SendError("Nachricht darf maximal 1000 Bytes lang sein")
-			if err != nil {
-				fmt.Println("Fehler beim Senden der Fehlermeldung:", err)
-				return
-			}
-			continue
-		}
-
-		message.ID = uuid.NewString()
-		message.Type = "message"
-		message.SenderID = userID
-		message.CreatedAt = time.Now().UTC()
-
-		fmt.Println("Sender:", message.SenderID)
-		fmt.Println("Empfanger:", message.RecipientID)
-		fmt.Println("Nachricht:", message.Content)
-
-		clientsMutex.RLock()
-		recipient, found := clients[message.RecipientID]
-		clientsMutex.RUnlock()
-
-		if !found {
-			fmt.Println("Empfanger nicht verbunden:", message.RecipientID)
-
-			err = client.SendError("Empfanger ist nicht verbunden")
+			err = client.SendError("Nachricht darf maximal 1000 bytes lang sein")
 			if err != nil {
 				fmt.Println("Fehler beim Sender der Fehlermeldung:", err)
 				return
@@ -241,19 +226,37 @@ func websocketHandler(
 			continue
 		}
 
-		err = recipient.SendJSON(message)
-		if err != nil {
-			fmt.Println("Fehler beim Weiterleiten", err)
-			continue
+		message := Message{
+			ID:        uuid.NewString(),
+			Type:      "message",
+			SenderID:  userID,
+			LobbyID:   currentLobby.ID,
+			Content:   event.Content,
+			CreatedAt: time.Now().UTC(),
 		}
 
-		sentConfirmation := message
-		sentConfirmation.Type = "message_sent"
+		fmt.Println("Sender:", message.SenderID)
+		fmt.Println("Lobby:", message.LobbyID)
+		fmt.Println("Nachricht:", message.Content)
 
-		err = client.SendJSON(sentConfirmation)
-		if err != nil {
-			fmt.Println("Fehler beim Senden der Bestatigung:", err)
-			return
+		for _, recipient := range currentLobby.ClientsSnapshot() {
+			outgoingMessage := message
+
+			if recipient.ID == userID {
+				outgoingMessage.Type = "message_sent"
+			}
+
+			sendErr := recipient.SendJSON(outgoingMessage)
+			if sendErr != nil {
+				fmt.Println(
+					"Nachricht konnte nicht an Client gesendet werden:",
+					recipient.ID,
+					sendErr,
+				)
+				if recipient.ID == userID {
+					return
+				}
+			}
 		}
 	}
 }

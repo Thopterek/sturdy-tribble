@@ -59,6 +59,18 @@ func (lobby *Lobby) RemoveClient(userID string) {
 	delete(lobby.ConnectedClients, userID)
 }
 
+func (lobby *Lobby) ClientsSnapshot() []*Client {
+	lobby.Mutex.RLock()
+	defer lobby.Mutex.RUnlock()
+
+	clients := make([]*Client, 0, len(lobby.ConnectedClients))
+
+	for _, client := range lobby.ConnectedClients {
+		clients = append(clients, client)
+	}
+	return clients
+}
+
 func joinLobby(client *Client, lobbyID string) (*Lobby, error) {
 	parsedLobbyID, err := uuid.Parse(lobbyID)
 	if err != nil {
