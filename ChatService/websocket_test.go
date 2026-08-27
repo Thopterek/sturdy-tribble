@@ -84,7 +84,7 @@ func joinTestLobby(
 
 	err := conn.WriteJSON(ClientEvent{
 		Type:    "join_lobby",
-		LobbyID: "lobbyID",
+		LobbyID: lobbyID,
 	})
 	if err != nil {
 		t.Fatalf("Lobby-Beitritt konnte nicht gesendet werden: %v", err)
@@ -198,7 +198,7 @@ func TestWebSocketLobbyBroadcast(t *testing.T) {
 		t.Fatalf(
 			"Falscher Sender-ID: erwartet %s, erhalten %s",
 			user1ID,
-			recipientMessage.SenderID,
+			senderMessage.SenderID,
 		)
 	}
 
