@@ -74,3 +74,42 @@ func connectTestClient(
 	}
 	return conn
 }
+
+func joinTestLobby(
+	t *testing.T,
+	conn *websocket.Conn,
+	lobbyID string,
+) {
+	t.Helper()
+
+	err := conn.WriteJSON(ClientEvent{
+		Type:	"join_lobby",
+		LobbyID:	"lobbyID",
+	})
+	if err != nil {
+		t.Fatalf("Lobby-Beitritt konnte nicht gesendet werden: %v", err)
+	}
+
+	var response LobbyJoinedResponse
+
+	err = conn.ReadJSON(&response)
+	if err != nil {
+		t.Fatalf("Lobby-Antwort konnte nicht gesendet werden: %v", err)
+	}
+
+	if response.Type != "lobby_joined" {
+		t.Fatalf(
+			"Unerwarteter Antworttyp: erwartet lobby_joined, erhalten %s",
+			response.Type,
+		)
+	}
+
+	if response.LobbyID != lobbyID {
+		t.Fatalf(
+			"Falsche Lobby-ID: erwartet %s, erhalten %s",
+			lobbyID,
+			response.LobbyID,
+		)
+	}
+}
+
