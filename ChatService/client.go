@@ -2,6 +2,7 @@ package main
 
 import (
 	"sync"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -17,6 +18,19 @@ func (client *Client) SendJSON(value any) error {
 	defer client.WriteMutex.Unlock()
 
 	return client.Conn.WriteJSON(value)
+}
+
+func (client *Client) SendPing() error {
+	client.WriteMutex.Lock()
+	defer client.WriteMutex.Unlock()
+
+	deadline := time.Now().Add(5 * time.Second)
+
+	return client.Conn.WriteControl(
+		websocket.PingMessage,
+		nil,
+		deadline,
+	)
 }
 
 func (client *Client) SendError(message string) error {

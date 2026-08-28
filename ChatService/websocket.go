@@ -16,6 +16,12 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+const (
+	pongWait           = 60 * time.Second
+	pingPeriod         = 30 * time.Second
+	maxClientEventSize = 2048
+)
+
 func websocketHandler(
 	w http.ResponseWriter,
 	r *http.Request,
@@ -28,12 +34,18 @@ func websocketHandler(
 		return
 	}
 
-	err = conn.SetReadDeadline(time.Now().Add(10 * time.Second))
+	conn.SetReadLimit(maxClientEventSize)
+
+	err = conn.SetReadDeadline(time.Now().Add(pongWait))
 	if err != nil {
-		fmt.Println("Auth-Timeout konnte nicht gesetzt werden:", err)
+		fmt.Println("Pong-Timeout konnte nicht gesetzt werden:", err)
 		conn.Close()
 		return
 	}
+
+	conn.SetPongHandler(func(string) error {
+		return conn.SetReadDeadline(time.Now().Add(pongWait))
+	})
 
 	var authRequest AuthRequest
 
@@ -129,6 +141,28 @@ func websocketHandler(
 	}
 
 	fmt.Println("WebSocket authentifiziert und bereit")
+
+	pingDone := make(chan struct{})
+	defer close(pingDone)
+
+	go func() {
+		ticker := time.NewTicker(pingPeriod)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				err := client.SendPing()
+				if err != nil {
+					fmt.Println("Websocket-Ping fehlgeschlagen:", userID, err)
+					conn.Close()
+					return
+				}
+			case <-pingDone:
+				return
+			}
+		}
+	}()
 
 	for {
 		var event ClientEvent
