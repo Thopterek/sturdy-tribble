@@ -12,6 +12,27 @@
 </div>
 
 @code {
-	[Parameter, EditorRequired] public int friends_count { get; set; } = 0;
-	[Parameter, EditorRequired] public int games_count { get; set; } = 0;
+	/*
+	 * This part is the init parts
+	 * with all the variables
+	*/
+	protected override void OnInitialized()
+	{
+		GetSetFriends();
+		GetSetGames();
+	}
+	[EditorRequired] public int friends_count { get; set; } = 0;
+	[EditorRequired] public int games_count { get; set; } = 0;
+	/*
+	 * Here are the wrappers that would go towards the Requests
+	 * as per for sending to the backend and setting the above ones
+	*/
+	private void GetSetFriends()
+	{
+		friends_count = 0; // tmp
+	}
+	private void GetSetGames()
+	{
+		games_count = 0; // tmp
+	}
 }
