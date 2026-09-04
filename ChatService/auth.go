@@ -17,8 +17,13 @@ type AuthRequest struct {
 	Token string `json:"token"`
 }
 
-func validateJWT(tokenString string, secret string) (string, error) {
-	claims := &jwt.RegisteredClaims{}
+type ChatClaims struct {
+	LobbyID string `json:"lobby_id"`
+	jwt.RegisteredClaims
+}
+
+func validateJWT(tokenString string, secret string,) (string, string, error) {
+	claims := &ChatClaims{}
 
 	token, err := jwt.ParseWithClaims(
 		tokenString,
@@ -30,23 +35,36 @@ func validateJWT(tokenString string, secret string) (string, error) {
 			jwt.SigningMethodHS256.Alg(),
 		}),
 		jwt.WithIssuer("chirpy"),
+		jwt.WithExpirationRequired(),
 	)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	if !token.Valid {
-		return "", errors.New("token ist ungultig")
+		return "", "", errors.New("token ist ungultig")
 	}
 
 	if claims.Subject == "" {
-		return "", errors.New("token enthalt keine user-id")
+		return "", "", errors.New("token nthalt keine user-id")
 	}
 
 	userID, err := uuid.Parse(claims.Subject)
 	if err != nil {
-		return "", errors.New("user-id im token ist keine gultige UUID")
+		return "", "", errors.New(
+			"user-id im token ist keine gulgitge UUID",
+		)
 	}
 
-	return userID.String(), nil
+	if claims.LobbyID == "" {
+		return "", "", errors.New("token enthalt keine lobby-id")
+	}
+
+	lobbyID, err := uuid.Parse(claims.LobbyID)
+	if err != nil {
+		return "", "", errors.New(
+			"lobby-id im token ist keine guktige UUID",
+		)
+	}
+	return userID.String(), lobbyID.String(), nil
 }
