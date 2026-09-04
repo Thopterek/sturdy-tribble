@@ -1,6 +1,12 @@
 @using Frontend.Layout.Dashboard
 
-<RectangleMenus Title="Load Game" Body="Here will come list">
+<RectangleMenus Title="Load Game" Count="@count" EmptyMsg="@empty_msg">
+	<div>
+		Testing
+	</div>
 </RectangleMenus>
 
-@code {}
+@code {
+	[Parameter, EditorRequired] public int count { get; set; } = 0;
+	[Parameter] public string empty_msg { get; set; } = "You didn't join or create any games yet, try it out";
+}

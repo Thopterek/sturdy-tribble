@@ -1,6 +1,12 @@
 @using Frontend.Layout.Dashboard
 
-<RectangleMenus Title="Profile" Body="Friends, maybe stats">
+<RectangleMenus Title="Profile" Count="@count" EmptyMsg="@empty_msg">
+	<div>
+		Here also should work
+	</div>
 </RectangleMenus>
 
-@code {}
+@code {
+	[Parameter, EditorRequired] public int count { get; set; } = 0;
+	[Parameter] public string empty_msg { get; set; } = "It looks like you didn't add any friends yet, try finding someone to play";
+}

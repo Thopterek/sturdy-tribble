@@ -6,7 +6,12 @@
 <h1>Dashboard</h1>
 
 <div class="dashboard-overview">
-	<GameList></GameList>
+	<GameList count="@games_count"></GameList>
 	<LobbyCreation></LobbyCreation>
-	<UserInfo></UserInfo>
+	<UserInfo count="@friends_count"></UserInfo>
 </div>
+
+@code {
+	[Parameter, EditorRequired] public int friends_count { get; set; } = 0;
+	[Parameter, EditorRequired] public int games_count { get; set; } = 0;
+}

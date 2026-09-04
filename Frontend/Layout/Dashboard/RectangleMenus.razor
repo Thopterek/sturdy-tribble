@@ -3,13 +3,23 @@
 		@Title
 	</header>
 	<div class="menu-body">
-		@Body
+		@if (Count == 0)
+		{
+			<p>@EmptyMsg</p>
+		}
+		else
+		{
+			for (int i = 0; i < Count; i++)
+			{
+				@ChildContent
+			}
+		}
 	</div>
 </section>
 
 @code {
 	[Parameter, EditorRequired] public string Title { get; set; }
-	// as for now just for playing around
-	[Parameter, EditorRequired] public string Body { get; set; }
-	// [Parameter, EditorRequired] required public RenderFragment Body { get; set; }
+	[Parameter, EditorRequired] public string EmptyMsg { get; set; }
+	[Parameter, EditorRequired] public int Count { get; set; }
+	[Parameter] public RenderFragment? ChildContent { get; set; }
 }

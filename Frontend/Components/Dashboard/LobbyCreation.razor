@@ -1,6 +1,11 @@
 @using Frontend.Layout.Dashboard
 
-<RectangleMenus Title="New Game" Body="Here will come list">
+<RectangleMenus Title="New Game" Count="1" EmptyMsg="@empty_msg">
+	<div>
+		There will be a bunch of places for buttons or smth
+	</div>
 </RectangleMenus>
 
-@code {}
+@code {
+	public string empty_msg = "Good job on finding this message would you like to help us develop this website?";
+}
