@@ -1,0 +1,7 @@
+.dashboard-overview {
+	display: flex;
+	gap: 5rem;
+	height: 100%;
+	min-height: 0;
+}
+
