@@ -1,15 +1,12 @@
 @page "/dashboard"
-@using Frontend.Layout.Dashboard
+@using Frontend.Components.Dashboard
 
 <PageTitle>Dashboard</PageTitle>
 
 <h1>Dashboard</h1>
 
 <div class="dashboard-overview">
-	<RectangleMenus Title="Yo" Body="Skrrr">
-	</RectangleMenus>
-	<RectangleMenus Title="Middle" Body="Midddd">
-	</RectangleMenus>
-	<RectangleMenus Title="Right?" Body="Not too far though">
-	</RectangleMenus>
+	<GameList></GameList>
+	<LobbyCreation></LobbyCreation>
+	<UserInfo></UserInfo>
 </div>
