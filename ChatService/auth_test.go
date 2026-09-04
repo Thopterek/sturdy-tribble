@@ -16,8 +16,8 @@ func TestValidateJWT(t *testing.T) {
 	claims := ChatClaims{
 		LobbyID: expectedLobbyID.String(),
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:	"chirpy",
-			Subject: expectedUserID.String(),
+			Issuer:    "chirpy",
+			Subject:   expectedUserID.String(),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 		},
 	}

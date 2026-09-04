@@ -70,6 +70,22 @@ Successful server response:
 
 The autentication event must be sent within 10 seconds. Invalid or expired tokens cause the connection to be closed.
 
+The JWT must be signed with the shared secret using HS256 and must contain the following claims:
+
+```json
+{
+    "iss": "chirpy",
+    "sub": "USER_UUID",
+    "lobby_id": "LOBBY_UUID",
+    "exp": 1788278400
+}
+```
+
+- `sub` identifies the authenticated user.
+- `lobby_id` identifies the lobby the user is allowed to join.
+- `exp` defiones when the token expires.
+- The requested lobby ID must match the lobby ID contained in the token.
+
 ### Join a lobby
 
 Client event:

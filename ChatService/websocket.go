@@ -65,7 +65,7 @@ func websocketHandler(
 		return
 	}
 
-	userID, allowedLobbyID, err := validateJWT(authRequest.Token, jwtSecret,)
+	userID, allowedLobbyID, err := validateJWT(authRequest.Token, jwtSecret)
 	if err != nil {
 		fmt.Println("JWT abgelehnt:", err)
 
@@ -178,7 +178,7 @@ func websocketHandler(
 				err = client.SendError(
 					"Client ist nicht fur diese Lobby berechtig",
 				)
-				if err != nil{
+				if err != nil {
 					return
 				}
 				continue

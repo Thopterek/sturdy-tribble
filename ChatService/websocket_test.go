@@ -12,13 +12,16 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func createTestToken(t *testing.T, secret, userID string) string {
+func createTestToken(t *testing.T, secret string, userID string, lobbyID string) string {
 	t.Helper()
 
-	claims := jwt.RegisteredClaims{
-		Issuer:    "chirpy",
-		Subject:   userID,
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+	claims := ChatClaims{
+		LobbyID: lobbyID,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    "chirpy",
+			Subject:   userID,
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -135,14 +138,13 @@ func TestWebSocketLobbyBroadcast(t *testing.T) {
 
 	user1ID := uuid.NewString()
 	user2ID := uuid.NewString()
+	lobbyID := uuid.NewString()
 
-	user1Token := createTestToken(t, secret, user1ID)
-	user2Token := createTestToken(t, secret, user2ID)
+	user1Token := createTestToken(t, secret, user1ID, lobbyID)
+	user2Token := createTestToken(t, secret, user2ID, lobbyID)
 
 	user1 := connectTestClient(t, websocketURL, user1Token)
 	user2 := connectTestClient(t, websocketURL, user2Token)
-
-	lobbyID := uuid.NewString()
 
 	joinTestLobby(t, user1, lobbyID)
 	joinTestLobby(t, user2, lobbyID)

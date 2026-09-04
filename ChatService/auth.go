@@ -22,7 +22,7 @@ type ChatClaims struct {
 	jwt.RegisteredClaims
 }
 
-func validateJWT(tokenString string, secret string,) (string, string, error) {
+func validateJWT(tokenString string, secret string) (string, string, error) {
 	claims := &ChatClaims{}
 
 	token, err := jwt.ParseWithClaims(
