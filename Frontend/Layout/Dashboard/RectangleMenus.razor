@@ -3,9 +3,13 @@
 		@Title
 	</header>
 	<div class="menu-body">
+		@Body
 	</div>
 </section>
 
 @code {
-	required public string Title;
+	[Parameter, EditorRequired] public string Title { get; set; }
+	// as for now just for playing around
+	[Parameter, EditorRequired] public string Body { get; set; }
+	// [Parameter, EditorRequired] required public RenderFragment Body { get; set; }
 }
