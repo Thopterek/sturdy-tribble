@@ -7,15 +7,30 @@
 <h1>Dashboard</h1>
 
 <div class="dashboard-overview">
-	<GameList></GameList>
+	@if (data is null)
+	{
+		<p>Loading Games...</p>
+	}
+	else
+	{
+		<GameList Games="data.Games"></GameList>
+	}
 	<LobbyCreation></LobbyCreation>
-	<UserInfo></UserInfo>
+	@if (data is null)
+	{
+		<p>Loading Profile...</p>
+	}
+	else
+	{
+		<UserInfo Friends="data.Friends"></UserInfo>
+	}
 </div>
 
 @code {
 	/*
 	 * This part is the init parts
 	 * with all the variables, could be one call?
+	 * or do the login thing that I mentioned in the commits
 	*/
 	protected override async Task OnInitializedAsync()
 	{
@@ -23,13 +38,24 @@
 	}
 
 	private DashboardData? data;
+
 	/*
 	 * Here are the wrappers that would go towards the Requests
 	 * as per for sending to the backend and setting the above ones
 	*/
-
 	private async Task GetSetDashboardData()
 	{
-		data = null; // tmp
+		// all Temporary for testing the logic
+		// but I would say should be working fine
+		data = new DashboardData(
+		Games: [
+			new GameLobby("Bruh", "what's up"),
+			new GameLobby("Second", "Some More Data")
+			],
+		Friends: [
+			new Friend("Yoo", "More text"),
+			new Friend("Another", "Plus something")
+		]);
+		// data = null;
 	}
 }

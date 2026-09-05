@@ -1,8 +1,13 @@
 @using Frontend.Layout.Dashboard
 
-<RectangleMenus Title="New Game" EmptyMsg="@empty_msg">
+<RectangleMenus Title="New Game" EmptyMsg="@empty_msg" Items="@Filler">
+	<SingleItem Context="fill">
+		<span>@fill</span>
+	</SingleItem>
 </RectangleMenus>
 
 @code {
 	private const string empty_msg = "Good job on finding this message would you like to help us develop this website?";
+
+	private IReadOnlyList<string> Filler = ["Here are some informations"];
 }
