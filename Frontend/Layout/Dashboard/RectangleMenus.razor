@@ -1,17 +1,19 @@
+@typeparam TItem
+
 <section class="rectangle-menu">
 	<header class="menu-header">
 		@Title
 	</header>
 	<div class="menu-body">
-		@if (Count == 0)
+		@if (!Items.Any())
 		{
 			<p>@EmptyMsg</p>
 		}
 		else
 		{
-			for (int i = 0; i < Count; i++)
+			@foreach (TItem item in Items)
 			{
-				@ChildContent
+				<p class="row" @key="item">@SingleItem(item)</p>
 			}
 		}
 	</div>
@@ -20,6 +22,8 @@
 @code {
 	[Parameter, EditorRequired] public string Title { get; set; }
 	[Parameter, EditorRequired] public string EmptyMsg { get; set; }
-	[Parameter, EditorRequired] public int Count { get; set; }
-	[Parameter] public RenderFragment? ChildContent { get; set; }
+	[Parameter, EditorRequired] public IEnumerable<TItem> Items { get; set; }
+	[Parameter, EditorRequired] public RenderFragment<TItem> SingleItem { get; set; }
+	// Possible to have different bodies (which would make perfect sense right?)
+	// [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; }
 }

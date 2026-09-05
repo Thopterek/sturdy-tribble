@@ -1,12 +1,14 @@
 @using Frontend.Layout.Dashboard
+@using Frontend.Models
 
-<RectangleMenus Title="Load Game" Count="@count" EmptyMsg="@empty_msg">
-	<div>
-		Testing
-	</div>
+<RectangleMenus Title="Load Game" EmptyMsg="@empty_msg" Items="@Games">
+	<SingleItem Context="game">
+		<span>@game.Name</span>
+		<span>@game.IdkNow</span>
+	</SingleItem>
 </RectangleMenus>
 
 @code {
-	[Parameter, EditorRequired] public int count { get; set; } = 0;
-	[Parameter] public string empty_msg { get; set; } = "You didn't join or create any games yet, try it out";
+	[Parameter, EditorRequired] public IReadOnlyList<GameLobby> Games { get; set; } = [];
+	private const string empty_msg = "You didn't join or create any games yet, try it out";
 }

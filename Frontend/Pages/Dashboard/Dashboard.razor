@@ -1,38 +1,35 @@
 @page "/dashboard"
 @using Frontend.Components.Dashboard
+@using Frontend.Models
 
 <PageTitle>Dashboard</PageTitle>
 
 <h1>Dashboard</h1>
 
 <div class="dashboard-overview">
-	<GameList count="@games_count"></GameList>
+	<GameList></GameList>
 	<LobbyCreation></LobbyCreation>
-	<UserInfo count="@friends_count"></UserInfo>
+	<UserInfo></UserInfo>
 </div>
 
 @code {
 	/*
 	 * This part is the init parts
-	 * with all the variables
+	 * with all the variables, could be one call?
 	*/
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		GetSetFriends();
-		GetSetGames();
+		await GetSetDashboardData();
 	}
-	[EditorRequired] public int friends_count { get; set; } = 0;
-	[EditorRequired] public int games_count { get; set; } = 0;
+
+	private DashboardData? data;
 	/*
 	 * Here are the wrappers that would go towards the Requests
 	 * as per for sending to the backend and setting the above ones
 	*/
-	private void GetSetFriends()
+
+	private async Task GetSetDashboardData()
 	{
-		friends_count = 0; // tmp
-	}
-	private void GetSetGames()
-	{
-		games_count = 0; // tmp
+		data = null; // tmp
 	}
 }

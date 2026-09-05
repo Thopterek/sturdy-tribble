@@ -1,12 +1,14 @@
 @using Frontend.Layout.Dashboard
+@using Frontend.Models
 
-<RectangleMenus Title="Profile" Count="@count" EmptyMsg="@empty_msg">
-	<div>
-		Here also should work
-	</div>
+<RectangleMenus Title="Profile" EmptyMsg="@empty_msg" Items="@Friends">
+	<SingleItem Context="friend">
+		<span>@friend.Name</span>
+		<span>@friend.IdkNow</span>
+	</SingleItem>
 </RectangleMenus>
 
 @code {
-	[Parameter, EditorRequired] public int count { get; set; } = 0;
-	[Parameter] public string empty_msg { get; set; } = "It looks like you didn't add any friends yet, try finding someone to play";
+	private const string empty_msg = "It looks like you didn't add any friends yet, try finding someone to play";
+	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
 }
