@@ -7,10 +7,10 @@
 			{
 				<div class="individual-from-form" @key="bac.info">
 					<input type="checkbox" checked="@bac.done" disabled />
-					<InputText placeholder="@bac.info" @bind-Value="bac.input" @bind-Value:event="oninput" />
+					<InputText placeholder="@bac.info" @bind-Value="bac.input" />
 				</div>
 			}
-			<button disabled="@(!CheckIfDone())" type="submit">
+			<button disabled="@(!CheckIfDone())" type="submit" @onclick="ClearCreate">
 				Create Game
 			</button>
 		</div>
@@ -42,6 +42,15 @@
 	new BoxesAndChecks("Name"),
 	new BoxesAndChecks("System"),
 	];
+	private void ClearCreate()
+	{
+		// here would be sending the request
+		// that would also be adding towards the GameList
+		foreach (BoxesAndChecks bac in to_fill_out)
+		{
+			bac.input = "";
+		}
+	}
 
 	private bool CheckIfDone()
 	{
