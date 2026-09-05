@@ -6,8 +6,14 @@
 	font-display: swap;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+
 :root {
 	--font-pixel: 'pixel', monospace;
+    --pix-black: #1a1a1a;
+    --pix-light: #d8d8d8;
+    --pix-mid:   #a8a8a8;
+    --pix-dark:  #6e6e6e;
 }
 
 h1, h2, h3,

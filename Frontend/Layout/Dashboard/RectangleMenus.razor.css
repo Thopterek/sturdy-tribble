@@ -3,13 +3,32 @@
 	flex-direction: column;
 	min-height: 0;
 	height: 100%;
+	background: var(--pix-mid);
+	border: 2px solid var(--pix-black);
+	box-shadow:
+		inset 2px 2px 0 var(--pix-light),
+		inset 2px 2px 0 var(--pix-dark),
+		4px 4px 0 var(--pix-black)
 }
 
 .menu-header {
 	flex: 0 0 auto;
+	padding: 0.4rem 0.6rem;
+	border-bottom: 2px solid var(--pix-black);
 }
 
 .menu-body {
 	flex: 1 1 auto;
 	min-height: 0;
+	overflow-y: auto;
+	padding: 0.4rem;
 }
+
+.row {
+	margin: 0;
+	padding: 0.3rem 0.4rem;
+	border-bottom: 2px solid var(--pix-dark);
+}
+
+.row:last-child {border-bottom: none;}
+.row:hover {background: var(--pix-light);}
