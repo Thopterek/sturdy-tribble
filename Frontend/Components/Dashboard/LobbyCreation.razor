@@ -7,7 +7,7 @@
 			{
 				<div class="individual-from-form" @key="bac.info">
 					<input type="checkbox" checked="@bac.done" disabled />
-					<InputText placeholder="@bac.info" @bind-Value="bac.input" />
+					<input type="text" placeholder="@bac.info" @bind="bac.input" @bind:event="oninput" />
 				</div>
 			}
 			<button disabled="@(!CheckIfDone())" type="submit" @onclick="ClearCreate">
