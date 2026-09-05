@@ -2,6 +2,8 @@
 @using Frontend.Models
 
 <RectangleMenus Title="Profile" EmptyMsg="@empty_msg" Items="@Friends">
+	<CustomContent>
+	</CustomContent>
 	<SingleItem Context="friend">
 		<span>@friend.Name</span>
 		<span>@friend.IdkNow</span>

@@ -2,6 +2,8 @@
 @using Frontend.Models
 
 <RectangleMenus Title="Load Game" EmptyMsg="@empty_msg" Items="@Games">
+	<CustomContent>
+	</CustomContent>
 	<SingleItem Context="game">
 		<span>@game.Name</span>
 		<span>@game.IdkNow</span>

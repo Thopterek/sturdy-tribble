@@ -4,6 +4,7 @@
 	<header class="menu-header">
 		@Title
 	</header>
+	<div>@CustomContent</div>
 	<div class="menu-body">
 		@if (!Items.Any())
 		{
@@ -25,5 +26,5 @@
 	[Parameter, EditorRequired] public IEnumerable<TItem> Items { get; set; }
 	[Parameter, EditorRequired] public RenderFragment<TItem> SingleItem { get; set; }
 	// Possible to have different bodies (which would make perfect sense right?)
-	// [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; }
+	[Parameter, EditorRequired] public RenderFragment CustomContent { get; set; }
 }

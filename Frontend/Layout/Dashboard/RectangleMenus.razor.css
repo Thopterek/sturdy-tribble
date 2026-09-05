@@ -31,4 +31,3 @@
 }
 
 .row:last-child {border-bottom: none;}
-.row:hover {background: var(--pix-light);}

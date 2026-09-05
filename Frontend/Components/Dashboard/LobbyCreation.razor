@@ -1,13 +1,43 @@
 @using Frontend.Layout.Dashboard
 
 <RectangleMenus Title="New Game" EmptyMsg="@empty_msg" Items="@Filler">
+	<CustomContent>
+		<ul class="RectangleMenus-creation">
+			@foreach (BoxesAndChecks bac in to_fill_out)
+			{
+				<li>
+					<InputText placeholder="@bac.info" @bind-Value="@bac.input" />
+				</li>
+			}
+			<button>Create Game</button>
+		</ul>
+	</CustomContent>
 	<SingleItem Context="fill">
 		<span>@fill</span>
 	</SingleItem>
 </RectangleMenus>
 
 @code {
+	/*
+	 * Unused part but for now kept because there might be some ideas
+	 * plus I really want to not have a headache of managing more diff elements
+	*/
 	private const string empty_msg = "Good job on finding this message would you like to help us develop this website?";
-
 	private IReadOnlyList<string> Filler = ["Here are some informations"];
+
+	/*
+	 * Game creation setup
+	 * class and couple of other things
+	*/
+	public class BoxesAndChecks(string set_info)
+	{
+		private bool done { get; set; } = false;
+		public string info = set_info;
+		public string input { get; set; } = "";
+	}
+	List<BoxesAndChecks> to_fill_out = [
+	new BoxesAndChecks("Name"),
+	new BoxesAndChecks("System"),
+	new BoxesAndChecks("Password")
+	];
 }
