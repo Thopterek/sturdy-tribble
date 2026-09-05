@@ -1,0 +1,16 @@
+@font-face {
+	font-family: 'pixel';
+	src: url('../fonts/tiny5-regular.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--font-pixel: 'pixel', monospace;
+}
+
+h1, h2, h3,
+.menu-header {
+    font-family: var(--font-pixel);
+}
