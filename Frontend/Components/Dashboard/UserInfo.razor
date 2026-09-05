@@ -13,4 +13,8 @@
 @code {
 	private const string empty_msg = "It looks like you didn't add any friends yet, try finding someone to play";
 	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
+	public class User
+	{
+		public string name;
+	}
 }
