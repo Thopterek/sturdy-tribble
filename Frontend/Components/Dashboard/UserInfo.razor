@@ -13,8 +13,7 @@
 @code {
 	private const string empty_msg = "It looks like you didn't add any friends yet, try finding someone to play";
 	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
-	public class User
-	{
-		public string name;
-	}
+	// We could theorethically keep the first Friend from the friend list as the user
+	// as per we most likely won't have any too much extra information about them anyway
+	// so we could technically pass it here already through Friends
 }
