@@ -1,0 +1,5 @@
+.load-button {
+	align-self: flex-start;
+	width: fit-content;
+	padding: 0.25rem 0.6rem;
+}

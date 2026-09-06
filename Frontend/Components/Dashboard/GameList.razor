@@ -5,12 +5,20 @@
 	<CustomContent>
 	</CustomContent>
 	<SingleItem Context="game">
-		<span>@game.Name</span>
-		<span>@game.IdkNow</span>
+		<span>Lobby: @game.Name</span>
+		<span>System: @game.System</span>
+		<span>
+			Players count: @game.Players.Length
+		</span>
+		<button class="load-button">Show Players</button>
+		<button class="load-button">Join Lobby</button>
 	</SingleItem>
 </RectangleMenus>
 
 @code {
 	[Parameter, EditorRequired] public IReadOnlyList<GameLobby> Games { get; set; } = [];
 	private const string empty_msg = "You didn't join or create any games yet, try it out";
+	/*
+	 * Button to show the actgual players inside the game
+	*/
 }

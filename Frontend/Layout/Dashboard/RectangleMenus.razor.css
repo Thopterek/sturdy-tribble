@@ -1,6 +1,7 @@
 .rectangle-menu {
 	display: flex;
 	flex-direction: column;
+	max-width: 33%;
 	min-height: 0;
 	height: 100%;
 	background: var(--pix-mid);
