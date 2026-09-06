@@ -1,0 +1,31 @@
+@using Frontend.Layout.Dashboard
+@using Frontend.Models
+@inject NavigationManager nm
+
+<RectangleMenus Title="Profile & Friends" EmptyMsg="@empty_msg" Items="@Friends">
+	<CustomContent>
+		<span><button @onclick="Settings">Settings</button><button>Logout</button></span>
+		<div>Welcome @user.Name</div>
+		<div>You played for total of <span>@user.Hours</span> hours</div>
+	</CustomContent>
+	<SingleItem Context="friend">
+		<div>
+			<span>@friend.Name</span>
+			<span class="@(friend.Online ? "online-dot" : "offline-dot")">●</span>
+			<span>@friend.Hours</span>
+		</div>
+	</SingleItem>
+</RectangleMenus>
+
+@code {
+	private const string empty_msg = "It looks like you didn't add any friends yet, try finding someone to play";
+	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
+	[Parameter, EditorRequired] public Friend user { get; set; }
+	// We could theorethically keep the first Friend from the friend list as the user
+	// as per we most likely won't have any too much extra information about them anyway
+	// so we could technically pass it here already through Friends
+	private void Settings()
+	{
+		nm.NavigateTo("settings");
+	}
+}

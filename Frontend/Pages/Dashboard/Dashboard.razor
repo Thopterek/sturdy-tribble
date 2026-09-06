@@ -1,0 +1,42 @@
+@page "/dashboard"
+@using Frontend.Components.Dashboard
+@using Frontend.Models
+@using Frontend.Services
+@inject AfterLogin AF
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+<div class="dashboard-overview">
+	@if (data is null)
+	{
+		<p>Loading Games...</p>
+	}
+	else
+	{
+		<GameList Games="data.Games"></GameList>
+	}
+	<LobbyCreation></LobbyCreation>
+	@if (data is null)
+	{
+		<p>Loading Profile...</p>
+	}
+	else
+	{
+		<UserInfo Friends="data.Friends" user="data.User"></UserInfo>
+	}
+</div>
+
+@code {
+	/*
+	 * This part is the init parts
+	 * with all the variables, could be one call?
+	 * or do the login thing that I mentioned in the commits
+	*/
+	protected override async Task OnInitializedAsync()
+	{
+		data = await AF.GetDashboardDataAsync();
+	}
+	private DashboardData? data;
+}

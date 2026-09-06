@@ -1,4 +1,28 @@
 # ====
+# .NET
+# ====
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.userosscache
+*.suo
+*.rsuser
+*.sln.docstates
+artifacts/
+project.lock.json
+project.fragment.lock.json
+msbuild.log
+msbuild.err
+msbuild.wrn
+*.nupkg
+*.snupkg
+.nuget/
+BenchmarkDotNet.Artifacts/
+*.sln.iml
+.idea/
+
+# ====
 # Rust
 # ====
 debug
