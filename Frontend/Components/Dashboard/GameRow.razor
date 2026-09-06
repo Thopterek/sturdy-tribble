@@ -1,0 +1,24 @@
+@using Frontend.Models
+
+<span>Lobby: @game.Name</span>
+<span>System: @game.System</span>
+<button class="load-button" type="submit" @onclick="() => not_showing = !not_showing">
+	@(not_showing ? "Show players" : "Hide players") (count @game.Players.Length)
+</button>
+@if (not_showing == false)
+{
+	foreach (string name in @game.Players)
+	{
+		<span>@name</span>
+	}
+}
+<button class="load-button">Join Lobby</button>
+
+@code {
+	[Parameter, EditorRequired] public GameLobby game { get; set; }
+	/*
+	 * Button to show the actual players inside the game
+	 * as per who is already able to join the lobby
+	*/
+	private bool not_showing = true;
+}

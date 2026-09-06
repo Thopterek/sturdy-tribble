@@ -10,7 +10,7 @@
 					<input type="text" placeholder="@bac.info" @bind="bac.input" @bind:event="oninput" />
 				</div>
 			}
-			<button disabled="@(!CheckIfDone())" type="submit" @onclick="ClearCreate">
+			<button class="game-create-button" disabled="@(!CheckIfDone())" @onclick="ClearCreate">
 				Create Game
 			</button>
 		</div>
