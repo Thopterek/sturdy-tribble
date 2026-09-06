@@ -10,7 +10,6 @@ public class AfterLogin
 {
     public static readonly Guid SkavenId = new("11111111-1111-1111-1111-111111111111");
     public static readonly Guid CtululuId = new("21111111-1111-1111-1111-111111111111");
-
     public IReadOnlyList<GameLobby> all_games =
     [
         new GameLobby(
@@ -26,6 +25,18 @@ public class AfterLogin
             ["Matloszek", "Olek"]
         ),
     ];
+
+    public async Task<GameLobby?> GetLobby(Guid? lobby_id)
+    {
+        if (lobby_id is null)
+            return null;
+        foreach (GameLobby gl in all_games)
+        {
+            if (gl.Id == lobby_id)
+                return gl;
+        }
+        return null;
+    }
 
     public async Task<DashboardData> GetDashboardDataAsync()
     {

@@ -1,9 +1,10 @@
 @using Frontend.Layout.Dashboard
 @using Frontend.Models
+@inject NavigationManager nm
 
 <RectangleMenus Title="Profile & Friends" EmptyMsg="@empty_msg" Items="@Friends">
 	<CustomContent>
-		<span><button>Settings</button><button>Logout</button></span>
+		<span><button @onclick="Settings">Settings</button><button>Logout</button></span>
 		<div>Welcome @user.Name</div>
 		<div>You played for total of <span>@user.Hours</span> hours</div>
 	</CustomContent>
@@ -23,4 +24,8 @@
 	// We could theorethically keep the first Friend from the friend list as the user
 	// as per we most likely won't have any too much extra information about them anyway
 	// so we could technically pass it here already through Friends
+	private void Settings()
+	{
+		nm.NavigateTo("settings");
+	}
 }

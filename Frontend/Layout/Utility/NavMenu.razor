@@ -36,8 +36,8 @@
 		@foreach (GameLobby game in AF.all_games)
 		{
 			<div class="nav-item px-3">
-				<NavLink class="nav-link" href="@game.Id" );">
-					<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @game.Name
+				<NavLink class="nav-link" href="@($"game/{game.Id}")" );">
+					<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> GAME
 				</NavLink>
 			</div>
 		}
