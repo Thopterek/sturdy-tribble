@@ -22,7 +22,7 @@
 	}
 	else
 	{
-		<UserInfo Friends="data.Friends"></UserInfo>
+		<UserInfo Friends="data.Friends" user="data.User"></UserInfo>
 	}
 </div>
 
@@ -53,9 +53,11 @@
 			new GameLobby("Investigation of cosmic powers", "Homebrew Cthullu", ["Matloszek", "Olek"])
 			],
 		Friends: [
-			new Friend("Yoo", "More text"),
-			new Friend("Another", "Plus something")
-		]);
-		// data = null;
+			new Friend("Dawcio", true, 53),
+			new Friend("Matloszek", false, 2532)
+		],
+		new Friend("Stelio", true, 4)
+		);
+		//data = null;
 	}
 }

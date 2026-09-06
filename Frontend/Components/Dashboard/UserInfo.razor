@@ -3,16 +3,23 @@
 
 <RectangleMenus Title="Profile" EmptyMsg="@empty_msg" Items="@Friends">
 	<CustomContent>
+		<span><button>Settings</button><button>Logout</button></span>
+		<div>Welcome @user.Name</div>
+		<div>You played for @user.Hours</div>
 	</CustomContent>
 	<SingleItem Context="friend">
-		<span>@friend.Name</span>
-		<span>@friend.IdkNow</span>
+		<div>
+			<span>@friend.Name</span>
+			<span class="@(friend.Online ? "online-dot" : "offline-dot")">●</span>
+			<span>@friend.Hours</span>
+		</div>
 	</SingleItem>
 </RectangleMenus>
 
 @code {
 	private const string empty_msg = "It looks like you didn't add any friends yet, try finding someone to play";
 	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
+	[Parameter, EditorRequired] public Friend user { get; set; }
 	// We could theorethically keep the first Friend from the friend list as the user
 	// as per we most likely won't have any too much extra information about them anyway
 	// so we could technically pass it here already through Friends

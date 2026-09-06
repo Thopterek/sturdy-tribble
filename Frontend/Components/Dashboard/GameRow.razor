@@ -1,9 +1,10 @@
 @using Frontend.Models
 
-<span>Lobby: @game.Name</span>
-<span>System: @game.System</span>
-<button class="load-button" type="submit" @onclick="() => not_showing = !not_showing">
-	@(not_showing ? "Show players" : "Hide players") (count @game.Players.Length)
+<span>Lobby: <span class="title">@game.Name</span></span>
+<span>System: <span class="title">@game.System</span></span>
+<button class="load-button">Join Lobby</button>
+<button class="load-button" @onclick="() => not_showing = !not_showing">
+	@(not_showing ? "Show other players" : "Hide other players") (@game.Players.Length)
 </button>
 @if (not_showing == false)
 {
@@ -12,7 +13,6 @@
 		<span>@name</span>
 	}
 }
-<button class="load-button">Join Lobby</button>
 
 @code {
 	[Parameter, EditorRequired] public GameLobby game { get; set; }
