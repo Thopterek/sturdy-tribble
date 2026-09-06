@@ -1,11 +1,11 @@
 @using Frontend.Layout.Dashboard
 @using Frontend.Models
 
-<RectangleMenus Title="Profile" EmptyMsg="@empty_msg" Items="@Friends">
+<RectangleMenus Title="Profile & Friends" EmptyMsg="@empty_msg" Items="@Friends">
 	<CustomContent>
 		<span><button>Settings</button><button>Logout</button></span>
 		<div>Welcome @user.Name</div>
-		<div>You played for @user.Hours</div>
+		<div>You played for total of <span>@user.Hours</span> hours</div>
 	</CustomContent>
 	<SingleItem Context="friend">
 		<div>

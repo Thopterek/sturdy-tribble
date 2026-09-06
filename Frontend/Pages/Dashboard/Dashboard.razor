@@ -1,6 +1,8 @@
 @page "/dashboard"
 @using Frontend.Components.Dashboard
 @using Frontend.Models
+@using Frontend.Services
+@inject AfterLogin AF
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -34,30 +36,7 @@
 	*/
 	protected override async Task OnInitializedAsync()
 	{
-		await GetSetDashboardData();
+		data = await AF.GetDashboardDataAsync();
 	}
-
 	private DashboardData? data;
-
-	/*
-	 * Here are the wrappers that would go towards the Requests
-	 * as per for sending to the backend and setting the above ones
-	*/
-	private async Task GetSetDashboardData()
-	{
-		// all Temporary for testing the logic
-		// but I would say should be working fine
-		data = new DashboardData(
-		Games: [
-			new GameLobby("Skavens going to war", "Warhammer 5ed", ["Dawcio", "Wojtas", "Kuba"]),
-			new GameLobby("Investigation of cosmic powers", "Homebrew Cthullu", ["Matloszek", "Olek"])
-			],
-		Friends: [
-			new Friend("Dawcio", true, 53),
-			new Friend("Matloszek", false, 2532)
-		],
-		new Friend("Stelio", true, 4)
-		);
-		//data = null;
-	}
 }

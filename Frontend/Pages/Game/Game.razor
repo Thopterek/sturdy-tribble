@@ -1,5 +1,11 @@
 @page "/game"
+@page "/game/{lobby_data.Id}"
+@using Frontend.Models
 
-<PageTitle>Game Lobby</PageTitle>
+<PageTitle>Game Lobby: @lobby_data.Name</PageTitle>
 
-<h1>Game Lobby</h1>
+<h1>Name of this mess: @lobby_data.Name</h1>
+
+@code {
+	[Parameter, EditorRequired] public GameLobby lobby_data { get; set; }
+}
