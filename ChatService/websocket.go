@@ -10,11 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
+var upgrader = websocket.Upgrader{}
 
 const (
 	pongWait           = 60 * time.Second
@@ -118,7 +114,7 @@ func websocketHandler(
 
 	defer func() {
 		if currentLobby != nil {
-			currentLobby.RemoveClient(userID)
+			removeClientFromLobby(currentLobby, userID)
 			fmt.Println("Client aus Lobby entfernt:", currentLobby.ID)
 		}
 

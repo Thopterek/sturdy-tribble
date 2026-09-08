@@ -59,6 +59,25 @@ func (lobby *Lobby) RemoveClient(userID string) {
 	delete(lobby.ConnectedClients, userID)
 }
 
+func removeClientFromLobby(lobby *Lobby, userID string) {
+	lobbiesMutex.Lock()
+	defer lobbiesMutex.Unlock()
+
+	lobby.Mutex.Lock()
+	defer lobby.Mutex.Unlock()
+
+	delete(lobby.ConnectedClients, userID)
+
+	if len(lobby.ConnectedClients) != 0 {
+		return
+	}
+
+	storedLobby, exists := lobbies[lobby.ID]
+	if exists && storedLobby == lobby {
+		delete(lobbies, lobby.ID)
+	}
+}
+
 func (lobby *Lobby) ClientsSnapshot() []*Client {
 	lobby.Mutex.RLock()
 	defer lobby.Mutex.RUnlock()
@@ -77,8 +96,23 @@ func joinLobby(client *Client, lobbyID string) (*Lobby, error) {
 		return nil, errors.New("lobby-id ist keine gultige UUID")
 	}
 
-	lobby := getOrCreateLobby(parsedLobbyID.String())
-	lobby.AddClient(client)
+	normalizedLobbyID := parsedLobbyID.String()
+
+	lobbiesMutex.Lock()
+	defer lobbiesMutex.Unlock()
+
+	lobby, exists := lobbies[normalizedLobbyID]
+	if !exists {
+		lobby = &Lobby{
+			ID:               normalizedLobbyID,
+			ConnectedClients: make(map[string]*Client),
+		}
+		lobbies[normalizedLobbyID] = lobby
+	}
+
+	lobby.Mutex.Lock()
+	lobby.ConnectedClients[client.ID] = client
+	lobby.Mutex.Unlock()
 
 	return lobby, nil
 }
