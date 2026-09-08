@@ -44,6 +44,21 @@ ChatService ist erreichbar
 ```text
 ws://localhost:8081/ws
 ```
+## Connection behavior
+
+- The Server sends a WebSocket ping every 30 seconds.
+- Clients must respond to keep the connection alive.
+- Incoming WebSocket events are limited to 2048 bytes.
+- Disconnecting removes the client from the lobby.
+- Empty lobbies are removed automatically.
+- Browser connections are restricted to the same origin by default.
+
+## Production
+
+In production, the WebSocket endpoint should be exposed thorugh a reverse proxy usin `wss://`.
+
+The backend must create JWTs using the same secret and issuer expected by the Chat Service.
+
 ### WebSocket protocol
 
 The client must authenticate imediatly after opening the WebSocket connection.
