@@ -1,0 +1,19 @@
+@page "/game"
+@page "/game/{LobbyId:guid?}"
+@using Frontend.Models
+@using Frontend.Services
+@inject AfterLogin AF
+
+<PageTitle>Game Lobby: @lobby_data.Name</PageTitle>
+
+<h1>Name of this mess: @lobby_data.Name</h1>
+
+@code {
+	[Parameter] public Guid? LobbyId { get; set; }
+	private GameLobby? lobby_data;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		lobby_data = await AF.GetLobby(LobbyId);
+	}
+}

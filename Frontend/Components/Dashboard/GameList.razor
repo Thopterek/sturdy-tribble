@@ -1,0 +1,16 @@
+@using Frontend.Layout.Dashboard
+@using Frontend.Components.Dashboard
+@using Frontend.Models
+
+<RectangleMenus Title="Load Game" EmptyMsg="@empty_msg" Items="@Games">
+	<CustomContent>
+	</CustomContent>
+	<SingleItem Context="game">
+		<GameRow game="game" />
+	</SingleItem>
+</RectangleMenus>
+
+@code {
+	[Parameter, EditorRequired] public IReadOnlyList<GameLobby> Games { get; set; } = [];
+	private const string empty_msg = "You didn't join or create any games yet, try it out";
+}

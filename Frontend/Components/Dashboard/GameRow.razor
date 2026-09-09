@@ -1,0 +1,29 @@
+@using Frontend.Models
+@inject NavigationManager nm
+
+<span>Lobby: <span class="title">@game.Name</span></span>
+<span>System: <span class="title">@game.System</span></span>
+<button class="load-button" @onclick="Join">Join Lobby</button>
+<button class="load-button" @onclick="() => not_showing = !not_showing">
+	@(not_showing ? "Show other players" : "Hide other players") (@game.Players.Length)
+</button>
+@if (not_showing == false)
+{
+	@foreach (string name in game.Players)
+	{
+		<span>@name</span>
+	}
+}
+
+@code {
+	[Parameter, EditorRequired] public GameLobby game { get; set; }
+	/*
+	 * Button to show the actual players inside the game
+	 * as per who is already able to join the lobby
+	*/
+	private bool not_showing = true;
+	private void Join()
+	{
+		nm.NavigateTo($"game/{game.Id}");
+	}
+}
