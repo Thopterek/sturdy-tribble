@@ -9,7 +9,7 @@
 			</div>
 		}
 	</div>
-	<input type="text" placeholder="Yo write your msg" @bind="inputwritten" @bind:event="oninput" />
+	<input type="text" placeholder="Yo write your msg" @bind="inputwritten" @bind:event="oninput" @onkeydown="Enter" />
 	<button @onclick="sendMessage">HERE IS BIRDIE</button>
 </div>
 
@@ -17,6 +17,12 @@
 	private string inputwritten = "";
 	private List<LobbyMessage> msgs = [];
 	[Parameter, EditorRequired] public string user { get; set; }
+	private void Enter(KeyboardEventArgs check)
+	{
+		if (check.Code == "Enter" || check.Code == "NumpadEnter")
+			sendMessage();
+	}
+
 	private void sendMessage()
 	{
 		if (inputwritten is null)
@@ -24,5 +30,6 @@
 		// here would be sending the request for it
 		msgs.Add(new LobbyMessage(user, inputwritten));
 		// plus getting the new state back
+		inputwritten = "";
 	}
 }
