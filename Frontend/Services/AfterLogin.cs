@@ -10,19 +10,27 @@ public class AfterLogin
 {
     public static readonly Guid SkavenId = new("11111111-1111-1111-1111-111111111111");
     public static readonly Guid CtululuId = new("21111111-1111-1111-1111-111111111111");
+
+    public static readonly List<Friend> skaven_lobby =
+    [
+        new("Dawcio", true, 23),
+        new("Wojtas", false, 512),
+        new("Kuba", true, 11023),
+    ];
+    public static readonly List<Friend> cthulu_lobby =
+    [
+        new("Matloszek", true, 12367),
+        new("Olek", false, 0),
+    ];
     public IReadOnlyList<GameLobby> all_games =
     [
-        new GameLobby(
-            SkavenId,
-            "Skavens going to war",
-            "Warhammer 5ed",
-            ["Dawcio", "Wojtas", "Kuba"]
-        ),
+        new GameLobby(SkavenId, "Skavens going to war", "Warhammer 5ed", skaven_lobby, 3600),
         new GameLobby(
             CtululuId,
             "Investigation of cosmic powers",
             "Homebrew Cthullu",
-            ["Matloszek", "Olek"]
+            cthulu_lobby,
+            365
         ),
     ];
 

@@ -1,1 +1,38 @@
-@code {}
+@using Frontend.Models
+
+<div class="chat-is-stylish">
+	<div class="msg-box">
+		@foreach (LobbyMessage msg in msgs)
+		{
+			<div class="individual-bruh">
+				<p>@msg.player: @msg.msg @msg.send_at</p>
+			</div>
+		}
+	</div>
+	<div class="yoo-msg-coming">
+		<input type="text" placeholder="Yo write your msg" @bind="inputwritten" @bind:event="oninput"
+			   @onkeydown="Enter" />
+		<button @onclick="sendMessage">BIRDIE</button>
+	</div>
+</div>
+
+@code {
+	private string inputwritten = "";
+	private List<LobbyMessage> msgs = [];
+	[Parameter, EditorRequired] public string user { get; set; }
+	private void Enter(KeyboardEventArgs check)
+	{
+		if (check.Code == "Enter" || check.Code == "NumpadEnter")
+			sendMessage();
+	}
+
+	private void sendMessage()
+	{
+		if (inputwritten is null)
+			return;
+		// here would be sending the request for it
+		msgs.Add(new LobbyMessage(user, inputwritten));
+		// plus getting the new state back
+		inputwritten = "";
+	}
+}

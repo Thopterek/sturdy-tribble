@@ -1,0 +1,10 @@
+@using Frontend.Components.Game
+@using Frontend.Models
+
+<div class="left-panel-is-here">
+	<LobbyInfo Friends="@lobby.Players" Hours="@lobby.Hours" />
+</div>
+
+@code {
+	[Parameter, EditorRequired] public GameLobby lobby { get; set; }
+}

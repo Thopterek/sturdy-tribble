@@ -2,11 +2,19 @@
 @page "/game/{LobbyId:guid?}"
 @using Frontend.Models
 @using Frontend.Services
+@using Frontend.Components.Game
+@using Frontend.Layout.Game
 @inject AfterLogin AF
 
-<PageTitle>Game Lobby: @lobby_data.Name</PageTitle>
+<PageTitle>Game Lobby: @lobby_data?.Name</PageTitle>
 
-<h1>Name of this mess: @lobby_data.Name</h1>
+<h1>Name of this mess: @lobby_data?.Name</h1>
+
+<div class="basic-lobby-setup">
+	<Panel lobby="@lobby_data" />
+	<span>MAP</span>
+	<Chat user="JPEG Mafia" />
+</div>
 
 @code {
 	[Parameter] public Guid? LobbyId { get; set; }

@@ -1,1 +1,24 @@
-@code {}
+@using Frontend.Layout.Dashboard
+@using Frontend.Models
+
+<RectangleMenus Title="Lobby Information" EmptyMsg="@empty_msg" Items="@Friends">
+	<CustomContent>
+		<div>Lobby is up for for total of @Hours hours</div>
+	</CustomContent>
+	<SingleItem Context="friend">
+		<div>
+			<span>@friend.Name</span>
+			<span class="@(friend.Online ? "online-dot" : "offline-dot")">●</span>
+			<span>@friend.Hours</span>
+		</div>
+	</SingleItem>
+</RectangleMenus>
+
+@code {
+	private const string empty_msg = "It looks like nobody is here, try to add some people up!";
+	[Parameter, EditorRequired] public IReadOnlyList<Friend> Friends { get; set; } = [];
+	[Parameter, EditorRequired] public int Hours { get; set; }
+	// We could theorethically keep the first Friend from the friend list as the user
+	// as per we most likely won't have any too much extra information about them anyway
+	// so we could technically pass it here already through Friends
+}
