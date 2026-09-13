@@ -1,4 +1,4 @@
-.rectangle-menu {
+.chat-is-stylish {
 	display: flex;
 	flex-direction: column;
 	max-width: 33%;
@@ -18,17 +18,17 @@
 	border-bottom: 2px solid var(--pix-black);
 }
 
-.menu-body {
+.msg-box {
 	flex: 1 1 auto;
 	min-height: 0;
 	overflow-y: auto;
 	padding: 0.4rem;
 }
 
-.row {
+.individual-bruh {
 	margin: 0;
 	padding: 0.3rem 0.4rem;
 	border-bottom: 2px solid var(--pix-dark);
 }
 
-.row:last-child {border-bottom: none;}
+.individual-bruh:last-child {border-bottom: none;}
