@@ -1,6 +1,6 @@
-# Sturdy-Tribble
+# Sturdy-Tribble, I mean ft_transcendence
 
-ft_transcendence, README for notes
+There should be read the subject but hey it is how it is
 
 ## Roles
 
@@ -45,7 +45,6 @@ Maybe:
 * Major:
 * Minor: ORM, SSR, PWA, File Upload
 
-
 ### Infrastructure
 
 * AWS Services
@@ -55,7 +54,7 @@ Maybe:
 
     The actual "launch" happens entirely inside the player's CPU and RAM. Here is the exact millisecond-by-millisecond breakdown:
 
-    The Request: The player types www.my-dnd-game.com and hits Enter. Their browser follows the DNS signpost to your S3 bucket.
+    The Request: The player types <www.my-dnd-game.com> and hits Enter. Their browser follows the DNS signpost to your S3 bucket.
 
     The Handshake: The browser knocks on the S3 bucket and asks, "Do you have a default file?" Because you configured Static Website Hosting, S3 says, "Yes, here is index.html."
 
@@ -80,11 +79,11 @@ Maybe:
     * Websocket Gateway
 
   * RDS (PostgreSQL): Central DB
-    
+
     * Contains cold assets: TODO configure tables' format ('...' = unfinished)
       * Users: Basic User profile info
         [Username, Password, PlayerName, UUID, ...]
-      * Player Stats: In-game AND/OR general profile statistics 
+      * Player Stats: In-game AND/OR general profile statistics
         [UUID, SessionsPlayed, ObjectsInteracted, ...]
       * Maps: Same format as cache DB
       * Characters:  
@@ -92,8 +91,7 @@ Maybe:
   * ElastiCache (Redis): In-game cache DB
 
     * Contains game session state. Periodically copies state back to the central DB. In case of a server drop, central DB requests, game state from cache. In game the session gets interrupted, a state is saved on the central DB.
-    
-    * TODO Configure format 
-  
-  * 
 
+    * TODO Configure format
+  
+  *
