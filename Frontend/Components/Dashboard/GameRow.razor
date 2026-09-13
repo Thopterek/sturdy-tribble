@@ -3,15 +3,16 @@
 
 <span>Lobby: <span class="title">@game.Name</span></span>
 <span>System: <span class="title">@game.System</span></span>
+<span>Hours: <span class="title">@game.Hours</span></span>
 <button class="load-button" @onclick="Join">Join Lobby</button>
 <button class="load-button" @onclick="() => not_showing = !not_showing">
-	@(not_showing ? "Show other players" : "Hide other players") (@game.Players.Length)
+	@(not_showing ? "Show other players" : "Hide other players") (@game.Players.Count)
 </button>
 @if (not_showing == false)
 {
-	@foreach (string name in game.Players)
+	@foreach (Friend friendo in game.Players)
 	{
-		<span>@name</span>
+		<span>@friendo.Name</span>
 	}
 }
 

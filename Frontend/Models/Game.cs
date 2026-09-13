@@ -1,10 +1,5 @@
 namespace Frontend.Models;
 
-public class Game
-{
-    public DateTime last_update;
-}
-
 public record LobbyMessage(string SetPlayer, string SetMsg)
 {
     public readonly string player = SetPlayer;

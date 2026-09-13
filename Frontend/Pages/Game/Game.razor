@@ -3,6 +3,7 @@
 @using Frontend.Models
 @using Frontend.Services
 @using Frontend.Components.Game
+@using Frontend.Layout.Game
 @inject AfterLogin AF
 
 <PageTitle>Game Lobby: @lobby_data?.Name</PageTitle>
@@ -10,7 +11,7 @@
 <h1>Name of this mess: @lobby_data?.Name</h1>
 
 <div class="basic-lobby-setup">
-	<span>LEFTPANEL</span>
+	<Panel />
 	<span>MAP</span>
 	<Chat user="JPEG Mafia" />
 </div>
