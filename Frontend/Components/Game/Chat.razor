@@ -9,8 +9,11 @@
 			</div>
 		}
 	</div>
-	<input type="text" placeholder="Yo write your msg" @bind="inputwritten" @bind:event="oninput" @onkeydown="Enter" />
-	<button @onclick="sendMessage">HERE IS BIRDIE</button>
+	<div class="yoo-msg-coming">
+		<input type="text" placeholder="Yo write your msg" @bind="inputwritten" @bind:event="oninput"
+			   @onkeydown="Enter" />
+		<button @onclick="sendMessage">BIRDIE</button>
+	</div>
 </div>
 
 @code {

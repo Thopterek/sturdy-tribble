@@ -12,9 +12,9 @@
 		4px 4px 0 var(--pix-black)
 }
 
-.menu-header {
+.yoo-msg-coming {
 	flex: 0 0 auto;
-	padding: 0.4rem 0.6rem;
+	padding: 0.2rem 0.2rem;
 	border-bottom: 2px solid var(--pix-black);
 }
 
