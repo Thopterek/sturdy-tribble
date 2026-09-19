@@ -1,1 +1,13 @@
-.left-panel-is-here-or-something {}
+.left-panel-is-here-or-something {
+	display: flex;
+	flex-direction: column;
+	max-width: 33%;
+	min-height: 0;
+	height: 100%;
+	background: var(--pix-mid);
+	border: 2px solid var(--pix-black);
+	box-shadow:
+		inset 2px 2px 0 var(--pix-light),
+		inset 2px 2px 0 var(--pix-dark),
+		4px 4px 0 var(--pix-black)
+}

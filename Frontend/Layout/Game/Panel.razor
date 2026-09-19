@@ -1,8 +1,10 @@
 @using Frontend.Components.Game
 @using Frontend.Models
 
-<div class="left-panel-is-here">
+<div class="left-panel-is-here-or-something">
+	<DiceRolls />
 	<LobbyInfo Friends="@lobby.Players" Hours="@lobby.Hours" />
+	<MapBuild />
 </div>
 
 @code {

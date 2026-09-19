@@ -1,18 +1,20 @@
 @using Frontend.Layout.Dashboard
 @using Frontend.Models
 
-<RectangleMenus Title="Lobby Information" EmptyMsg="@empty_msg" Items="@Friends">
-	<CustomContent>
-		<div>Lobby is up for for total of @Hours hours</div>
-	</CustomContent>
-	<SingleItem Context="friend">
-		<div>
-			<span>@friend.Name</span>
-			<span class="@(friend.Online ? "online-dot" : "offline-dot")">●</span>
-			<span>@friend.Hours</span>
-		</div>
-	</SingleItem>
-</RectangleMenus>
+<div>
+	<RectangleMenus Title="Lobby Information" EmptyMsg="@empty_msg" Items="@Friends">
+		<CustomContent>
+			<div>Lobby is up for for total of @Hours hours</div>
+		</CustomContent>
+		<SingleItem Context="friend">
+			<div>
+				<span>@friend.Name</span>
+				<span class="@(friend.Online ? "online-dot" : "offline-dot")">●</span>
+				<span>@friend.Hours</span>
+			</div>
+		</SingleItem>
+	</RectangleMenus>
+</div>
 
 @code {
 	private const string empty_msg = "It looks like nobody is here, try to add some people up!";
